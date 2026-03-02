@@ -8,7 +8,7 @@ function Projects() {
 
   return (
     <Section id="projects">
-      <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">
+      <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">
         {t('projects.title')}
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -18,10 +18,15 @@ function Projects() {
             emoji={project.emoji}
             title={project.title}
             description={project.description}
+            problem={project.problem}
+            solution={project.solution}
+            highlights={project.highlights}
+            architectureDecisions={project.architectureDecisions}
             technologies={project.technologies}
             type={project.type}
             link={project.link || null}
             linkLabel={project.link ? (project.linkLabel || t('projects.viewProject')) : null}
+            githubLink={project.githubLink || null}
             featured={project.featured}
           />
         ))}

@@ -33,22 +33,24 @@ function Contact() {
 
   return (
     <Section id="contact">
-      <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+      <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 text-center">
         {t('contact.title')}
       </h2>
-      <p className="text-blue-200 text-lg mb-8">{t('contact.description')}</p>
-      <div className="space-y-4">
+      <p className="text-blue-200 text-lg mb-8 text-center max-w-2xl mx-auto">
+        {t('contact.description')}
+      </p>
+      <div className="max-w-md mx-auto space-y-4">
         {links.map(({ labelKey, value, href, icon }) => (
           <div key={labelKey} className="flex items-center gap-3">
             <span className="text-2xl">{icon}</span>
-            <span className="text-white/70 font-medium w-20">
+            <span className="text-white/70 font-medium w-20 shrink-0">
               {t(labelKey)}
             </span>
             <a
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-200 hover:underline transition-colors hover:text-white"
+              className="text-blue-200 hover:underline transition-colors hover:text-white truncate"
             >
               {value}
             </a>

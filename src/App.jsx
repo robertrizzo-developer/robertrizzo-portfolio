@@ -8,12 +8,12 @@ import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-400 via-blue-500 to-blue-300 text-white">
-      <RandomBubbles count={15} />
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-white">
+      <RandomBubbles count={20} />
       <Header />
       <Home />
-      <Projects />
       <About />
+      <Projects />
       <Contact />
       <Footer />
     </div>

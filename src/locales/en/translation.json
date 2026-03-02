@@ -1,26 +1,27 @@
 {
   "nav": {
     "home": "Home",
-    "projects": "Projects",
     "about": "About",
+    "projects": "Projects",
     "contact": "Contact"
   },
   "home": {
     "name": "Robert Rizzo",
-    "tagline": "Aspiring Java Developer | IT-Högskolan",
-    "subtitle": "Passionate about software development and building things that make a difference.",
+    "tagline": "Java Developer | Backend & System Development",
+    "subtitle": "I build reliable backend systems and REST APIs. Currently studying Java development at IT-Högskolan with a focus on Spring Boot, databases, and software architecture.",
+    "availability": "Graduating May 2026 — actively seeking junior backend / system developer roles.",
     "emojis": "☕ 💻 🐟 🚀 🥋",
     "downloadCv": "Download CV"
   },
   "about": {
     "title": "About Me",
-    "bio": "Hi! My name is Robert Rizzo and I'm currently studying to become a Java Developer at IT-Högskolan. I'm passionate about software development and love solving problems with code. Outside of my studies, I volunteer as a youth leader and board member at a fishing club, where I also built their website.",
+    "bio": "I'm Robert Rizzo, a Java developer in training at IT-Högskolan with a strong interest in backend engineering, system design, and building software that solves real problems. I've already delivered a production website for a fishing club where I volunteer as youth leader and board member — proving I can ship real systems, not just school assignments. I'm looking for a junior role where I can grow as a backend or system developer.",
     "educationTitle": "Education",
     "education": [
-      "Java Developer Program – IT-Högskolan (ongoing)",
-      "TBD – Previous education"
+      "Java Developer Program — IT-Högskolan (graduating May 2026)",
+      "Example Previous Education — Placeholder School (2020)"
     ],
-    "coursesTitle": "Courses",
+    "coursesTitle": "Technical Courses",
     "courses": [
       "Java & Object-Oriented Programming",
       "Spring Boot & Backend Development",
@@ -29,85 +30,196 @@
       "REST APIs & Web Services",
       "Agile Development & Scrum"
     ],
-    "experienceTitle": "Previous Experience",
+    "experienceTitle": "Experience",
     "experience": [
-      "Youth Leader – Fishing Club (ongoing)",
-      "Board Member – Fishing Club (ongoing)",
-      "TBD – Additional experience"
+      "Web Developer — Fishing Club (volunteer, production system)",
+      "Youth Leader & Board Member — Fishing Club (ongoing)",
+      "Example Role — Example Company (placeholder)"
     ],
-    "hobbiesTitle": "Interests & Hobbies",
-    "hobbies": [
-      "Fishing",
-      "Martial arts",
-      "Programming & open source",
-      "Outdoor life"
-    ],
-    "lookingForTitle": "What I'm Looking For",
-    "lookingFor": "I'm looking for opportunities as a Java Developer or Software Developer. Open to internships, junior roles, and collaborations – don't hesitate to reach out!"
+    "drivesTitle": "What Drives Me",
+    "drives": "I'm motivated by building systems that people actually use. Whether it's a website for a local organization or a backend API handling real business logic, I care about writing code that works reliably in production. I value clean architecture, tested code, and clear documentation — because code is read far more often than it's written.",
+    "skillsTitle": "Technical Skills"
+  },
+  "skills": {
+    "backend": {
+      "title": "Backend",
+      "items": ["Java", "Spring Boot", "REST APIs", "Maven", "Gradle"]
+    },
+    "databases": {
+      "title": "Databases",
+      "items": ["SQL", "PostgreSQL", "Spring Data JPA", "JDBC", "Flyway"]
+    },
+    "testing": {
+      "title": "Testing & Quality",
+      "items": ["JUnit 5", "Mockito", "Testcontainers", "Integration Testing", "TDD"]
+    },
+    "security": {
+      "title": "Security",
+      "items": ["Spring Security", "JWT", "BCrypt", "Input Validation", "CORS"]
+    },
+    "frontend": {
+      "title": "Frontend",
+      "items": ["React", "JavaScript", "HTML/CSS", "Tailwind CSS", "i18next"]
+    },
+    "devops": {
+      "title": "Tools & DevOps",
+      "items": ["Git", "Docker", "Docker Compose", "Linux", "GitHub Actions", "CI/CD"]
+    },
+    "observability": {
+      "title": "Observability",
+      "items": ["SLF4J/Logback", "Spring Actuator", "Error Handling", "Structured Logging"]
+    },
+    "methodologies": {
+      "title": "Methodologies",
+      "items": ["Agile/Scrum", "OOP", "Clean Architecture", "Code Review"]
+    }
   },
   "projects": {
     "title": "Projects",
-    "viewProject": "View Project",
-    "tryOutProject": "Try Out The Project",
+    "viewProject": "Live Demo",
+    "tryOutProject": "Try It Out",
+    "problemLabel": "Problem",
+    "architectureLabel": "Architecture & Engineering Decisions",
+    "designLabel": "Design",
+    "databaseLabel": "Database",
+    "scalabilityLabel": "Scalability",
+    "tradeoffsLabel": "Tradeoffs",
     "items": [
+      {
+        "emoji": "📦",
+        "title": "BookingAPI",
+        "problem": "No existing open-source booking backend fit the needs of small organizations managing room or event reservations with authentication and conflict detection.",
+        "solution": "Designed and built a complete REST API for managing bookings — rooms, time slots, users, and conflict detection. Implements JWT authentication, role-based authorization, input validation, and is fully containerized with Docker. Includes comprehensive test coverage with JUnit 5, Mockito, and Testcontainers.",
+        "highlights": [
+          "RESTful API with CRUD operations and business logic for booking conflict detection",
+          "JWT-based stateless authentication with BCrypt password hashing and role-based access control",
+          "Database schema with 4 tables, foreign key constraints, and Flyway migrations",
+          "Unit tests (JUnit 5 + Mockito) and integration tests (Testcontainers with real PostgreSQL)",
+          "Structured logging with SLF4J/Logback and health checks via Spring Boot Actuator",
+          "Containerized with Docker Compose (app + PostgreSQL), API documented with Swagger/OpenAPI",
+          "CI/CD pipeline with GitHub Actions running tests on every push"
+        ],
+        "architectureDecisions": {
+          "design": "Layered architecture following the Controller → Service → Repository pattern. Each layer has a single responsibility: controllers handle HTTP concerns and input validation, services enforce business rules like booking conflict detection, and repositories manage data access. A global @RestControllerAdvice provides consistent error responses across all endpoints.",
+          "database": "PostgreSQL with four tables: users, roles, rooms, and bookings. Bookings reference both users and rooms via foreign keys. A database-level exclusion constraint prevents overlapping bookings for the same room. Flyway manages all schema migrations, ensuring the database evolves alongside the application code in a version-controlled manner.",
+          "scalability": "The stateless JWT approach means no server-side session storage — multiple API instances can run behind a load balancer without session stickiness. HikariCP connection pooling handles concurrent database access efficiently. The Flyway migration approach ensures all instances run against the same schema version during rolling deployments.",
+          "tradeoffs": "Chose JWT over session-based auth for statelessness, accepting that token revocation requires additional infrastructure (e.g., a Redis-backed blacklist). Chose PostgreSQL over H2 to demonstrate production-grade skills, mitigating the local setup complexity with Docker Compose. Accepted increased test execution time from Testcontainers in exchange for higher confidence in integration tests."
+        },
+        "technologies": ["Java 17", "Spring Boot 3", "PostgreSQL", "Spring Security", "JWT", "Spring Data JPA", "Flyway", "JUnit 5", "Mockito", "Testcontainers", "Docker", "Swagger/OpenAPI", "GitHub Actions"],
+        "type": "Personal Project",
+        "link": "",
+        "githubLink": "https://github.com/example/booking-api",
+        "featured": true
+      },
       {
         "emoji": "🐟",
         "title": "Fishing Club Website",
-        "description": "Built a complete website for the fishing club where I volunteer, serve on the board, and lead the youth group. The site presents the club's activities, events, and member information.",
-        "technologies": ["TBD"],
-        "type": "Volunteer",
-        "link": ""
+        "problem": "The fishing club had no digital presence — members relied on word-of-mouth for event information and new members couldn't find the club online.",
+        "solution": "Built and deployed a complete website serving as the club's official digital platform. The site presents activities, events, membership information, and youth programs. This is a real production system used by actual club members — not a school exercise.",
+        "highlights": [
+          "Delivered a production system for a real organization with real users",
+          "Managed the full project lifecycle: requirements gathering from board members, design, development, and deployment",
+          "Responsive design ensuring accessibility on mobile, tablet, and desktop",
+          "SEO optimized so the club appears in local search results"
+        ],
+        "architectureDecisions": {
+          "design": "Chose a static site architecture for maximum reliability and zero maintenance overhead. A volunteer-run fishing club needs a website that works without a dedicated developer on call. The priority was uptime and simplicity over feature richness.",
+          "database": "No traditional database — content is managed through static files. This was a deliberate decision to minimize operational complexity and eliminate an entire category of potential failures for a volunteer-maintained project.",
+          "scalability": "Static hosting via CDN handles any realistic traffic spike. If the club grew to need dynamic features like member login or event registration, the next step would be a headless CMS or lightweight backend API.",
+          "tradeoffs": "Prioritized simplicity and maintainability over dynamic features. A CMS would have enabled non-technical content editing, but added hosting complexity and cost that wasn't justified for the club's current needs."
+        },
+        "technologies": ["React", "JavaScript", "HTML/CSS", "Tailwind CSS", "Netlify"],
+        "type": "Production System",
+        "link": "https://example-fishing-club.netlify.app",
+        "githubLink": "https://github.com/example/fishing-club-website",
+        "featured": false
       },
       {
         "emoji": "🥋",
         "title": "Järnvilja",
-        "description": "Fullstack school project – a martial arts-themed web application demonstrating my end-to-end development skills. Includes both frontend and backend with database management.",
-        "technologies": ["TBD"],
+        "problem": "School assignment to build a fullstack application demonstrating end-to-end development skills — from database design to user interface.",
+        "solution": "Developed Järnvilja, a martial arts-themed web application with a complete backend API, relational database, and responsive frontend. The project demonstrates understanding of the full application stack and how frontend, backend, and database layers communicate through well-defined interfaces.",
+        "highlights": [
+          "RESTful API design with clear endpoint structure connecting frontend to backend services",
+          "Relational database design with normalized tables and CRUD operations",
+          "Deployed to Render with environment-based configuration for production",
+          "Separation of concerns between frontend presentation and backend business logic"
+        ],
+        "architectureDecisions": {
+          "design": "Used a layered architecture separating HTTP handling, business logic, and data access. The frontend communicates exclusively through the REST API, meaning the backend could serve any client — web, mobile, or third-party integration.",
+          "database": "Relational database with normalized tables. Foreign key constraints enforce referential integrity at the database level rather than relying solely on application-level validation.",
+          "scalability": "The stateless API design means the backend can scale horizontally. In a production scenario, multiple instances could run behind a load balancer without requiring session affinity.",
+          "tradeoffs": "Chose a monolithic deployment for simplicity given the school project scope. In a larger system, the backend and frontend could be deployed independently for faster iteration cycles."
+        },
+        "technologies": ["Java", "Spring Boot", "PostgreSQL", "Thymeleaf", "HTML/CSS", "REST API"],
         "type": "School Project",
         "link": "https://jarnvilja.onrender.com",
-        "linkLabel": "Try Out The Project",
+        "linkLabel": "Try It Out",
+        "githubLink": "https://github.com/example/jarnvilja",
         "featured": true
       },
       {
         "emoji": "🌤️",
         "title": "Weather App",
-        "description": "School project consuming a REST API to display weather data and forecasts. Demonstrates understanding of API integration and asynchronous data handling.",
-        "technologies": ["JavaScript", "REST API", "HTML", "CSS"],
+        "problem": "Needed to demonstrate the ability to consume external REST APIs and handle asynchronous data flows in a frontend application.",
+        "solution": "Built a weather application that integrates with the OpenWeatherMap API to fetch and display real-time weather data and multi-day forecasts. Focused on clean API integration patterns, proper error handling for network failures, and responsive data presentation.",
+        "highlights": [
+          "REST API consumption with structured error handling and loading states",
+          "Asynchronous JavaScript using fetch and async/await patterns",
+          "Data transformation: mapping complex API response structures to clean UI components",
+          "Responsive layout adapting weather information display across screen sizes"
+        ],
+        "architectureDecisions": {
+          "design": "Separated API communication into a dedicated service module rather than mixing fetch calls into UI components. This mirrors backend patterns of separating data access from presentation logic, making the code easier to test and maintain.",
+          "database": "No database — the app is intentionally stateless, fetching fresh data on each request. For real-time weather data, caching would risk showing outdated information to users.",
+          "scalability": "Client-side only, so scaling is handled by the hosting CDN. The external API has rate limits — a production version would route requests through a backend proxy with response caching to stay within limits.",
+          "tradeoffs": "Called the weather API directly from the browser for simplicity. The tradeoff is exposing the API key client-side. In production, this would go through a backend proxy to protect the key — a pattern I later implemented properly in the BookingAPI project."
+        },
+        "technologies": ["JavaScript", "REST API", "HTML", "CSS", "OpenWeatherMap API"],
         "type": "School Project",
-        "link": ""
-      },
-      {
-        "emoji": "🐍",
-        "title": "Python Project",
-        "description": "Hobby project built with Python. Details and description coming soon.",
-        "technologies": ["Python", "TBD"],
-        "type": "Hobby",
-        "link": ""
+        "link": "",
+        "githubLink": "https://github.com/example/weather-app",
+        "featured": false
       },
       {
         "emoji": "🤖",
         "title": "AI Chatbot",
-        "description": "Hobby project – an AI-powered chatbot. Exploring how machine learning and language models can be used to create interactive conversational experiences.",
-        "technologies": ["Python", "TBD"],
+        "problem": "Wanted to explore how large language models can be integrated into applications and how prompt engineering affects response quality.",
+        "solution": "Built an AI-powered chatbot demonstrating API integration with language model services, prompt engineering techniques, and real-time conversational state management. The project shows how modern AI services can be consumed as backend APIs, following the same integration patterns used with any external service.",
+        "highlights": [
+          "Integration with LLM APIs using proper HTTP client patterns and error handling",
+          "Prompt engineering with system prompts, context management, and response formatting",
+          "Conversation state management maintaining context across multiple exchanges",
+          "API key security: credentials stored in environment variables, never in source code"
+        ],
+        "architectureDecisions": {
+          "design": "Structured the application with clear separation between the conversation handler, the API client, and the prompt templates. This makes it straightforward to swap the LLM provider or modify prompts without touching core conversation logic.",
+          "database": "Conversation history managed in-memory during sessions. A production version would persist conversations to a database for analytics, continuity, and the ability to fine-tune prompts based on real usage patterns.",
+          "scalability": "Current single-user design. A production version would need a message queue or WebSocket layer to handle concurrent conversations, plus rate limiting to control API costs.",
+          "tradeoffs": "Chose synchronous API calls for simplicity. In production, streaming responses would provide better UX for longer generations. Accepted the latency tradeoff to keep the implementation focused on the AI integration pattern itself."
+        },
+        "technologies": ["Python", "OpenAI API", "Prompt Engineering", "REST API Integration"],
         "type": "Hobby",
-        "link": ""
+        "link": "",
+        "githubLink": "https://github.com/example/ai-chatbot",
+        "featured": false
       }
     ]
   },
   "contact": {
     "title": "Contact",
-    "description": "Don't hesitate to reach out! I'm always open for new opportunities and collaborations.",
-    "email": "TBD@example.com",
-    "phone": "+46 TBD",
-    "linkedin": "linkedin.com/in/TBD",
-    "github": "github.com/TBD",
+    "description": "Graduating in May 2026 and actively looking for my first role as a backend or system developer. Open to internships, junior positions, and collaborations — don't hesitate to reach out.",
+    "email": "robert.rizzo@example.com",
+    "phone": "+46 70 123 4567",
+    "linkedin": "linkedin.com/in/robert-rizzo-example",
+    "github": "github.com/robert-rizzo-example",
     "emailLabel": "Email",
     "phoneLabel": "Phone",
     "linkedinLabel": "LinkedIn",
     "githubLabel": "GitHub"
   },
   "footer": {
-    "tagline": "Built with React & Tailwind CSS",
+    "tagline": "Built with React, Tailwind CSS & i18next",
     "rights": "All rights reserved."
   }
 }

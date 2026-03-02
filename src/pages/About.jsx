@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import Section from '../components/Section';
+import SkillsGrid from '../components/SkillsGrid';
 
 function About() {
   const { t } = useTranslation();
@@ -8,19 +9,25 @@ function About() {
     { titleKey: 'about.educationTitle', itemsKey: 'about.education' },
     { titleKey: 'about.coursesTitle', itemsKey: 'about.courses' },
     { titleKey: 'about.experienceTitle', itemsKey: 'about.experience' },
-    { titleKey: 'about.hobbiesTitle', itemsKey: 'about.hobbies' },
   ];
 
   return (
     <Section id="about">
-      <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+      <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 text-center">
         {t('about.title')}
       </h2>
       <p className="text-blue-100 text-lg leading-relaxed mb-10">
         {t('about.bio')}
       </p>
 
-      <div className="grid gap-8 md:grid-cols-2 mb-10">
+      <h3 className="text-2xl font-bold text-white mb-6">
+        {t('about.skillsTitle')}
+      </h3>
+      <div className="mb-12">
+        <SkillsGrid />
+      </div>
+
+      <div className="grid gap-8 md:grid-cols-3 mb-10">
         {lists.map(({ titleKey, itemsKey }) => (
           <div key={titleKey}>
             <h3 className="text-xl font-semibold text-blue-200 mb-3">
@@ -37,10 +44,10 @@ function About() {
 
       <div className="bg-blue-200/10 backdrop-blur-sm border-l-4 border-blue-200 rounded-xl p-6 md:p-8">
         <h3 className="text-lg font-semibold text-blue-200 mb-2">
-          {t('about.lookingForTitle')}
+          {t('about.drivesTitle')}
         </h3>
         <p className="text-white/90 leading-relaxed">
-          {t('about.lookingFor')}
+          {t('about.drives')}
         </p>
       </div>
     </Section>

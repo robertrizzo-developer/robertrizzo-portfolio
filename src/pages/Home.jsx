@@ -6,7 +6,7 @@ function Home() {
   return (
     <section
       id="home"
-      className="relative z-10 min-h-[60vh] flex items-center justify-center px-6 pt-24"
+      className="relative z-10 min-h-[70vh] flex items-center justify-center px-6 pt-24"
     >
       <div className="text-center">
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 drop-shadow-lg">
@@ -15,8 +15,11 @@ function Home() {
         <p className="text-xl md:text-2xl text-blue-200 italic mb-3">
           {t('home.tagline')}
         </p>
-        <p className="text-base md:text-lg text-white/70 mb-8 max-w-xl mx-auto">
+        <p className="text-base md:text-lg text-white/70 mb-4 max-w-2xl mx-auto">
           {t('home.subtitle')}
+        </p>
+        <p className="text-sm md:text-base text-green-300/90 font-medium mb-8">
+          {t('home.availability')}
         </p>
         <div className="flex justify-center gap-4 text-3xl md:text-4xl mb-8">
           {t('home.emojis')
