@@ -1,14 +1,12 @@
 import { useTranslation } from 'react-i18next';
 
 const CATEGORIES = [
-  { key: 'skills.backend', icon: '⚙️' },
+  { key: 'skills.backendJava', icon: '⚙️' },
   { key: 'skills.databases', icon: '🗄️' },
   { key: 'skills.testing', icon: '🧪' },
   { key: 'skills.security', icon: '🔐' },
-  { key: 'skills.frontend', icon: '🖥️' },
   { key: 'skills.devops', icon: '🚀' },
-  { key: 'skills.observability', icon: '📊' },
-  { key: 'skills.methodologies', icon: '📋' },
+  { key: 'skills.architecture', icon: '📋' },
 ];
 
 function SkillsGrid() {

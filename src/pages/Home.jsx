@@ -21,18 +21,6 @@ function Home() {
         <p className="text-sm md:text-base text-green-300/90 font-medium mb-8">
           {t('home.availability')}
         </p>
-        <div className="flex justify-center gap-4 text-3xl md:text-4xl mb-8">
-          {t('home.emojis')
-            .split(' ')
-            .map((emoji, i) => (
-              <span
-                key={i}
-                className="transition-transform hover:scale-125 cursor-default"
-              >
-                {emoji}
-              </span>
-            ))}
-        </div>
         <a
           href="/cv.pdf"
           target="_blank"

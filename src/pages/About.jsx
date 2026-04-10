@@ -42,14 +42,6 @@ function About() {
         ))}
       </div>
 
-      <div className="bg-blue-200/10 backdrop-blur-sm border-l-4 border-blue-200 rounded-xl p-6 md:p-8">
-        <h3 className="text-lg font-semibold text-blue-200 mb-2">
-          {t('about.drivesTitle')}
-        </h3>
-        <p className="text-white/90 leading-relaxed">
-          {t('about.drives')}
-        </p>
-      </div>
     </Section>
   );
 }
