@@ -1,32 +1,24 @@
 import { Routes, Route } from 'react-router-dom';
-import RandomBubbles from './components/RandomBubbles';
-import Header from './components/Header';
-import Home from './pages/Home';
-import About from './pages/About';
-import Projects from './pages/Projects';
-import Contact from './pages/Contact';
-import Footer from './components/Footer';
+import MainLayout from './layouts/MainLayout';
+import HomePage from './pages/HomePage';
+import ProjectsListPage from './pages/ProjectsListPage';
+import ProjectDetailPage from './pages/ProjectDetailPage';
+import ContactPage from './pages/ContactPage';
+import AboutPage from './pages/AboutPage';
 import JarnviljaDemo from './pages/JarnviljaDemo';
-
-function Portfolio() {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-white">
-      <RandomBubbles count={20} />
-      <Header />
-      <Home />
-      <About />
-      <Projects />
-      <Contact />
-      <Footer />
-    </div>
-  );
-}
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Portfolio />} />
-      <Route path="/projects/jarnvilja" element={<JarnviljaDemo />} />
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/projects" element={<ProjectsListPage />} />
+        {/* Static segment before :slug so /projects/jarnvilja is not handled as a case study */}
+        <Route path="/projects/jarnvilja" element={<JarnviljaDemo />} />
+        <Route path="/projects/:slug" element={<ProjectDetailPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/about" element={<AboutPage />} />
+      </Route>
     </Routes>
   );
 }

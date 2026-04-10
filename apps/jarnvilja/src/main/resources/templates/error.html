@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="sv" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Fel - Järnvilja Kampsport')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<main class="error-page" id="main-content">
+    <div class="error-code" th:text="${status}">500</div>
+    <div class="error-message" th:text="${message}">Ett oväntat fel inträffade.</div>
+    <a th:href="@{/index}" class="btn-primary">Tillbaka till startsidan</a>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

@@ -7,11 +7,11 @@ function Section({ id, children, className = '', fullScreen = false }) {
     <section
       id={id}
       ref={ref}
-      className={`relative z-10 px-6 py-20 transition-all duration-700 ${
+      className={`relative z-10 px-6 sm:px-8 lg:px-10 py-24 md:py-32 transition-all duration-700 ${
         isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
       } ${fullScreen ? 'min-h-screen flex items-center justify-center' : ''} ${className}`}
     >
-      <div className="max-w-4xl mx-auto w-full">{children}</div>
+      <div className="max-w-5xl mx-auto w-full">{children}</div>
     </section>
   );
 }

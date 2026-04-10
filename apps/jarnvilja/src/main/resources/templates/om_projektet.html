@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="sv" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Om Projektet - Järnvilja Kampsport')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<main>
+    <h1>Om Projektet</h1>
+    <p class="project-intro">
+        Järnvilja är ett fullstack-portfolioprojekt byggt för att demonstrera moderna webbutvecklingstekniker
+        i ett realistiskt scenario &ndash; en kampsportklubb med bokning, autentisering och administrationsfunktioner.
+    </p>
+
+    <section class="tech-section">
+        <h2>Teknikstack</h2>
+        <div class="tech-grid">
+            <div class="tech-card">
+                <h3>Backend</h3>
+                <ul>
+                    <li>Java 17</li>
+                    <li>Spring Boot 3.4</li>
+                    <li>Spring Security (rollbaserad åtkomstkontroll)</li>
+                    <li>Spring Data JPA / Hibernate</li>
+                    <li>Lombok</li>
+                    <li>Maven</li>
+                </ul>
+            </div>
+            <div class="tech-card">
+                <h3>Frontend</h3>
+                <ul>
+                    <li>Thymeleaf (server-side rendering)</li>
+                    <li>HTML5 semantiska element</li>
+                    <li>CSS3 (dark theme, responsiv design)</li>
+                    <li>Vanilla JavaScript (ES6+)</li>
+                </ul>
+            </div>
+            <div class="tech-card">
+                <h3>Databas</h3>
+                <ul>
+                    <li>MySQL 8 (produktion)</li>
+                    <li>H2 In-Memory (demo/test)</li>
+                    <li>Spring Profiles (dev/demo/prod)</li>
+                </ul>
+            </div>
+            <div class="tech-card">
+                <h3>DevOps &amp; Verktyg</h3>
+                <ul>
+                    <li>Docker &amp; Docker Compose</li>
+                    <li>GitHub Actions CI</li>
+                    <li>Git versionshantering</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="tech-section">
+        <h2>Arkitektur</h2>
+        <div class="architecture-overview">
+            <div class="arch-layer">
+                <h3>Presentationslager</h3>
+                <p>Thymeleaf-templates med fragment-system för layout-återanvändning. Responsiv CSS med dark theme.</p>
+            </div>
+            <div class="arch-layer">
+                <h3>Controllerlager</h3>
+                <p>Separata controllers per roll (Member, Admin, Trainer) med <code>@PreAuthorize</code> för säkerhet.</p>
+            </div>
+            <div class="arch-layer">
+                <h3>Servicelager</h3>
+                <p>Affärslogik med <code>@Transactional</code> för dataintegritet och <code>@Service</code>-beans.</p>
+            </div>
+            <div class="arch-layer">
+                <h3>Datalager</h3>
+                <p>Spring Data JPA-repositories med custom queries, indexering och unika constraints.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="tech-section">
+        <h2>Demonstrerade kompetenser</h2>
+        <div class="skills-grid">
+            <span class="skill-tag">REST API-design</span>
+            <span class="skill-tag">Rollbaserad åtkomstkontroll</span>
+            <span class="skill-tag">CSRF-skydd</span>
+            <span class="skill-tag">Databasdesign &amp; normalisering</span>
+            <span class="skill-tag">Transaction management</span>
+            <span class="skill-tag">Global exception handling</span>
+            <span class="skill-tag">DTO-mönster</span>
+            <span class="skill-tag">Spring Profiles</span>
+            <span class="skill-tag">Docker-containerisering</span>
+            <span class="skill-tag">CI/CD-pipeline</span>
+            <span class="skill-tag">Responsiv design</span>
+            <span class="skill-tag">Tillgänglighet (ARIA)</span>
+            <span class="skill-tag">Database seeding</span>
+            <span class="skill-tag">E-postintegration</span>
+            <span class="skill-tag">Input-validering</span>
+        </div>
+    </section>
+
+    <section class="tech-section">
+        <h2>Demokonton</h2>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                <tr>
+                    <th>Roll</th>
+                    <th>Användarnamn</th>
+                    <th>Lösenord</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Admin</td>
+                    <td>demo_admin</td>
+                    <td>demo123</td>
+                </tr>
+                <tr>
+                    <td>Medlem</td>
+                    <td>demo</td>
+                    <td>demo123</td>
+                </tr>
+                <tr>
+                    <td>Tränare</td>
+                    <td>demo_trainer</td>
+                    <td>demo123</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="tech-section" style="text-align: center;">
+        <a href="https://github.com/robertrizzo/jarnvilja" class="btn-primary" target="_blank" rel="noopener">
+            Visa på GitHub
+        </a>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

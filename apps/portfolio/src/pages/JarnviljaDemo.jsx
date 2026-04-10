@@ -9,11 +9,11 @@ function JarnviljaDemo() {
   const { t } = useTranslation();
 
   return (
-    <div className="flex flex-col h-screen bg-slate-950">
-      <div className="flex items-center justify-between px-4 py-2 bg-slate-900 border-b border-white/10 shrink-0">
+    <div className="flex flex-col h-screen bg-white">
+      <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-neutral-200 shadow-sm shrink-0">
         <Link
-          to="/#projects"
-          className="inline-flex items-center gap-1.5 text-sm text-blue-200 hover:text-white transition-colors"
+          to="/projects"
+          className="inline-flex items-center gap-1.5 text-sm text-neutral-700 hover:text-blue-700 transition-colors"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -27,25 +27,35 @@ function JarnviljaDemo() {
           </svg>
           {t('demo.backToPortfolio')}
         </Link>
-        <span className="text-sm font-medium text-white/70">Järnvilja</span>
+        <span className="text-sm font-medium text-neutral-900">Järnvilja</span>
       </div>
 
-      <div className="relative flex-1">
+      <div className="relative flex-1 flex flex-col min-h-0">
         {loading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-slate-950">
+          <div className="absolute inset-0 flex items-center justify-center bg-white z-10">
             <div className="flex flex-col items-center gap-3">
-              <div className="w-8 h-8 border-2 border-blue-200/30 border-t-blue-200 rounded-full animate-spin" />
-              <span className="text-sm text-white/50">{t('demo.loading')}</span>
+              <div className="w-8 h-8 border-2 border-neutral-200 border-t-blue-600 rounded-full animate-spin" />
+              <span className="text-sm text-neutral-500">{t('demo.loading')}</span>
             </div>
           </div>
         )}
         <iframe
           src={DEMO_URL}
           title="Järnvilja Demo"
-          className="w-full h-full border-0"
+          className="w-full flex-1 min-h-0 border-0"
           onLoad={() => setLoading(false)}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
         />
+        <div className="shrink-0 border-t border-neutral-200 bg-neutral-50 px-4 py-2.5 text-center text-sm">
+          <a
+            href={DEMO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-700 hover:text-blue-900 font-medium"
+          >
+            {t('demo.openInNewTab')}
+          </a>
+        </div>
       </div>
     </div>
   );

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="sv" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Tränarsida - Järnvilja Kampsport')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<div class="page-with-sidebar">
+    <aside class="sidebar" role="complementary">
+        <h2>Tränare</h2>
+        <ul>
+            <li><a href="#stats-section">Översikt</a></li>
+            <li><a href="#classes-section">Mina pass</a></li>
+            <li><a href="#cancelled-section">Inställda pass</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+    <h1>Välkommen, <span sec:authentication="name"></span>!</h1>
+
+    <div th:replace="~{fragments/layout :: toasts}"></div>
+
+    <section id="stats-section">
+    <details open class="trainer-details">
+        <summary>Statistik</summary>
+        <section class="admin-stats">
+            <div class="stat-card">
+                <span class="stat-number" th:text="${stats != null ? stats.totalClasses : 0}">0</span>
+                <span class="stat-label">Mina pass</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" th:text="${stats != null ? stats.totalBookings : 0}">0</span>
+                <span class="stat-label">Totala bokningar</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" th:text="${stats != null ? stats.mostPopularDay : '–'}">–</span>
+                <span class="stat-label">Populäraste dag</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" th:text="${stats != null ? #numbers.formatDecimal(stats.avgAttendanceRate, 1, 0) + '%' : '0%'}">0%</span>
+                <span class="stat-label">Närvarograd</span>
+            </div>
+        </section>
+
+        <div class="stats-charts" th:if="${stats != null && !stats.bookingsPerClass.isEmpty()}">
+            <div class="chart-container">
+                <canvas id="trainerBookingsChart" width="400" height="250"></canvas>
+            </div>
+            <div class="chart-container" th:if="${!stats.weeklyAttendance.isEmpty()}">
+                <canvas id="trainerWeeklyChart" width="400" height="250"></canvas>
+            </div>
+        </div>
+    </details>
+    </section>
+
+    <script th:if="${stats != null}" th:inline="javascript">
+        /*<![CDATA[*/
+        window._trainerStats = {
+            bookingsPerClass: /*[[${stats.bookingsPerClass}]]*/ {},
+            weeklyAttendance: /*[[${stats.weeklyAttendance}]]*/ {}
+        };
+        /*]]>*/
+    </script>
+
+    <section id="classes-section">
+    <h2>Mina Träningspass</h2>
+
+    <div th:if="${classes != null}" th:each="tc : ${classes}">
+        <div class="trainer-class-card"
+             th:classappend="${tc.status != null and tc.status.name() == 'CANCELLED'} ? 'class-cancelled' : ''">
+            <div class="trainer-card-header">
+                <h3>
+                    <span th:text="${tc.title}">Klass</span>
+                    <span th:if="${tc.status != null and tc.status.name() == 'CANCELLED'}" class="badge-cancelled">INSTÄLLT</span>
+                </h3>
+                <div class="trainer-card-actions" th:if="${tc.status == null or tc.status.name() != 'CANCELLED'}">
+                    <a th:href="@{/trainerPage/classes/{id}/edit(id=${tc.id})}" class="btn-secondary">Redigera</a>
+                    <form th:action="@{/trainerPage/classes/{id}/cancel(id=${tc.id})}" method="post" class="inline-form"
+                          data-confirm="Är du säker på att du vill ställa in detta pass?">
+                        <input type="hidden" name="reason" value="Inställt av tränare"/>
+                        <button type="submit" class="btn-danger">Ställ in</button>
+                    </form>
+                </div>
+            </div>
+            <p class="trainer-class-meta">
+                <span th:switch="${tc.trainingDay.name()}">
+                    <span th:case="'MONDAY'">Måndag</span><span th:case="'TUESDAY'">Tisdag</span><span th:case="'WEDNESDAY'">Onsdag</span><span th:case="'THURSDAY'">Torsdag</span><span th:case="'FRIDAY'">Fredag</span><span th:case="'SATURDAY'">Lördag</span><span th:case="'SUNDAY'">Söndag</span>
+                </span> |
+                <span th:text="${#temporals.format(tc.startTime, 'HH:mm')}">Start</span> -
+                <span th:text="${#temporals.format(tc.endTime, 'HH:mm')}">Slut</span> |
+                <span th:switch="${tc.matta.name()}">
+                    <span th:case="'MATTA_1'">Matta 1</span><span th:case="'MATTA_2'">Matta 2</span>
+                </span> |
+                <span th:text="'Bokningar: ' + (${bookingsPerClass != null and bookingsPerClass.containsKey(tc.id)} ? ${bookingsPerClass.get(tc.id)} : 0)">Bokningar: 0</span>
+                / <span th:text="${tc.maxCapacity}">20</span>
+            </p>
+            <p th:text="${tc.description}">Beskrivning</p>
+
+            <details class="trainer-details">
+                <summary th:text="'Deltagare (' + (${bookingsPerClass != null and bookingsPerClass.containsKey(tc.id)} ? ${bookingsPerClass.get(tc.id)} : 0) + ')'">Deltagare (0)</summary>
+                <div class="trainer-members-list">
+                    <table th:if="${tc.bookings != null and !#lists.isEmpty(tc.bookings)}">
+                        <thead>
+                        <tr>
+                            <th>Namn</th>
+                            <th>Användarnamn</th>
+                            <th>Status</th>
+                            <th>Närvaro</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="b : ${tc.bookings}" th:if="${b.bookingStatus.name() == 'CONFIRMED'}">
+                            <td>
+                                <span th:if="${b.member.firstName != null}" th:text="${b.member.firstName + ' ' + (b.member.lastName != null ? b.member.lastName : '')}"></span>
+                                <span th:if="${b.member.firstName == null}" class="empty-message">–</span>
+                            </td>
+                            <td th:text="${b.member.username}">user</td>
+                            <td>
+                                <span class="status-confirmed">Bekräftad</span>
+                            </td>
+                            <td>
+                                <span th:if="${b.attended}" class="status-confirmed">Närvarande</span>
+                                <span th:unless="${b.attended}" class="status-pending">Ej registrerad</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <p th:if="${tc.bookings == null or #lists.isEmpty(tc.bookings)}" class="empty-message">
+                        Inga bokningar ännu.
+                    </p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <div th:if="${classes == null || #lists.isEmpty(classes)}" class="alert alert-info">
+        <p>Du har inga tilldelade träningspass ännu.</p>
+    </div>
+
+    <h2 id="cancelled-section">Inställda pass</h2>
+    <div th:each="tc : ${classes}" th:if="${tc.status != null and tc.status.name() == 'CANCELLED'}">
+        <div class="trainer-class-card class-cancelled">
+            <div class="trainer-card-header">
+                <h3>
+                    <span th:text="${tc.title}">Klass</span>
+                    <span class="badge-cancelled">INSTÄLLT</span>
+                </h3>
+            </div>
+            <p class="trainer-class-meta">
+                <span th:switch="${tc.trainingDay.name()}">
+                    <span th:case="'MONDAY'">Måndag</span><span th:case="'TUESDAY'">Tisdag</span><span th:case="'WEDNESDAY'">Onsdag</span><span th:case="'THURSDAY'">Torsdag</span><span th:case="'FRIDAY'">Fredag</span><span th:case="'SATURDAY'">Lördag</span><span th:case="'SUNDAY'">Söndag</span>
+                </span> |
+                <span th:text="${#temporals.format(tc.startTime, 'HH:mm')}">Start</span> -
+                <span th:text="${#temporals.format(tc.endTime, 'HH:mm')}">Slut</span>
+            </p>
+        </div>
+    </div>
+    <p th:if="${classes == null or #lists.isEmpty(classes.?[status != null and status.name() == 'CANCELLED'])}" class="empty-message">Inga inställda pass.</p>
+    </section>
+    </main>
+</div>
+
+<div th:replace="~{fragments/layout :: confirm-modal}"></div>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+<script src="/js/trainer-charts.js"></script>
+</body>
+</html>

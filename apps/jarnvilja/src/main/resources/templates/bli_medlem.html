@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Bli Medlem - Järnvilja Kampsport')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<main>
+    <section>
+        <h2>1. Välj medlemskap eller träningskort</h2>
+        <p>Klicka på ett alternativ för att se detaljer och priser:</p>
+        <ul>
+            <li><a href="#" data-membership="manadsmedlemskap">Månadsmedlemskap (12, 6 eller 3 månader)</a></li>
+            <li><a href="#" data-membership="autogiro-bundet">Autogiro (12 månader, bundet)</a></li>
+            <li><a href="#" data-membership="autogiro-obundet">Autogiro (Obundet)</a></li>
+            <li><a href="#" data-membership="10-klippkort">10-klippkort</a></li>
+            <li><a href="#" data-membership="engangspass">Engångspass</a></li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>2. Registrera dig och skapa ditt konto</h2>
+        <p class="demo-note">Formuläret nedan är en demonstration. <a th:href="@{/register}">Registrera dig här</a> för att skapa ett riktigt konto.</p>
+        <form action="#" id="demoRegistrationForm">
+            <div class="form-group">
+                <label for="firstName">Förnamn:</label>
+                <input type="text" id="firstName" name="firstName" required>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Efternamn:</label>
+                <input type="text" id="lastName" name="lastName" required>
+            </div>
+            <div class="form-group">
+                <label for="birthDate">Födelsedatum:</label>
+                <input type="date" id="birthDate" name="birthDate" required>
+            </div>
+            <div class="form-group">
+                <label for="email">E-postadress:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Telefonnummer:</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="membership">Välj medlemskap/träningskort:</label>
+                <select id="membership" name="membership" required>
+                    <option value="barnmedlemskap">Barnmedlemskap</option>
+                    <option value="engangspass">Engångspass</option>
+                    <option value="vuxenmedlemskap">Vuxenmedlemskap</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="payment">Betalning:</label>
+                <select id="payment" name="payment" required>
+                    <option value="kort">Kortbetalning</option>
+                    <option value="swish">Swish</option>
+                </select>
+            </div>
+            <button type="submit">Registrera (demo)</button>
+        </form>
+    </section>
+
+    <section>
+        <h2>3. Bekräftelse och Välkomstpaket</h2>
+        <p>När din registrering och betalning är genomförd får du en bekräftelse via e-post, samt ett välkomstpaket med all information du behöver för att komma igång på gymmet.</p>
+    </section>
+</main>
+
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="modal-body"></div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+<script src="/js/membership.js"></script>
+</body>
+</html>

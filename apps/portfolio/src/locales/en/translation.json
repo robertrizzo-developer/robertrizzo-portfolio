@@ -1,9 +1,15 @@
 {
   "nav": {
     "home": "Home",
-    "about": "About",
     "projects": "Projects",
-    "contact": "Contact"
+    "about": "About",
+    "contact": "Contact",
+    "menu": "Menu",
+    "openMenu": "Open navigation",
+    "closeMenu": "Close navigation"
+  },
+  "sections": {
+    "details": "Details"
   },
   "home": {
     "name": "Robert Rizzo",
@@ -65,6 +71,8 @@
   },
   "projects": {
     "title": "Projects",
+    "viewDetails": "View case study",
+    "backToList": "All projects",
     "viewProject": "Live Demo",
     "tryOutProject": "Try It Out",
     "problemLabel": "Problem",
@@ -205,7 +213,8 @@
   },
   "demo": {
     "backToPortfolio": "Back to Portfolio",
-    "loading": "Loading demo..."
+    "loading": "Loading demo...",
+    "openInNewTab": "Open demo in new tab"
   },
   "footer": {
     "tagline": "Built with React, Tailwind CSS & i18next",

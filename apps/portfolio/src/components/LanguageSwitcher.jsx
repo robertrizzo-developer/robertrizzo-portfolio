@@ -8,25 +8,34 @@ function LanguageSwitcher() {
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1 rounded-full bg-neutral-100 p-1 text-sm">
+      
       <button
         onClick={() => switchLanguage('sv')}
-        className={`text-xl transition-transform hover:scale-125 cursor-pointer ${
-          i18n.language === 'sv' ? 'scale-110 drop-shadow-lg' : 'opacity-60'
-        }`}
         aria-label="Svenska"
+        className={`px-2 py-1 rounded-full transition-all duration-200
+          ${
+            i18n.language === 'sv'
+              ? 'bg-white text-black shadow-sm'
+              : 'text-neutral-500 hover:text-black'
+          }`}
       >
-        🇸🇪
+        SV
       </button>
+
       <button
         onClick={() => switchLanguage('en')}
-        className={`text-xl transition-transform hover:scale-125 cursor-pointer ${
-          i18n.language === 'en' ? 'scale-110 drop-shadow-lg' : 'opacity-60'
-        }`}
         aria-label="English"
+        className={`px-2 py-1 rounded-full transition-all duration-200
+          ${
+            i18n.language === 'en'
+              ? 'bg-white text-black shadow-sm'
+              : 'text-neutral-500 hover:text-black'
+          }`}
       >
-        🇬🇧
+        EN
       </button>
+
     </div>
   );
 }

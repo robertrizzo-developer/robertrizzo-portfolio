@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Våra Tränare - Järnvilja Kampsport')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<main>
+    <h1>Våra Tränare</h1>
+
+    <div class="trainer-grid">
+        <div class="trainer-card">
+            <div class="trainer-avatar">LB</div>
+            <h2>Leif "Benlåset"</h2>
+            <p class="trainer-role">BJJ-tränare</p>
+            <p><a href="#" class="read-more" data-trainer="leif">Läs mer</a></p>
+        </div>
+
+        <div class="trainer-card">
+            <div class="trainer-avatar">TM</div>
+            <h2>Tony McClinch</h2>
+            <p class="trainer-role">Thaiboxningstränare</p>
+            <p><a href="#" class="read-more" data-trainer="tony">Läs mer</a></p>
+        </div>
+
+        <div class="trainer-card">
+            <div class="trainer-avatar">HK</div>
+            <h2>Hanna "Kroknäsa" Karlsson</h2>
+            <p class="trainer-role">Boxningstränare</p>
+            <p><a href="#" class="read-more" data-trainer="hanna">Läs mer</a></p>
+        </div>
+
+        <div class="trainer-card">
+            <div class="trainer-avatar">KK</div>
+            <h2>Kettlebell-Kajsa</h2>
+            <p class="trainer-role">Fystränare</p>
+            <p><a href="#" class="read-more" data-trainer="kajsa">Läs mer</a></p>
+        </div>
+
+        <div class="trainer-card">
+            <div class="trainer-avatar">FB</div>
+            <h2>Fanny "Stenpanna" Berg</h2>
+            <p class="trainer-role">Thaiboxningstränare</p>
+            <p><a href="#" class="read-more" data-trainer="fanny">Läs mer</a></p>
+        </div>
+
+        <div class="trainer-card">
+            <div class="trainer-avatar">BJ</div>
+            <h2>Bella "Strypnacke" Johansson</h2>
+            <p class="trainer-role">BJJ-tränare</p>
+            <p><a href="#" class="read-more" data-trainer="bella">Läs mer</a></p>
+        </div>
+
+        <div class="trainer-card">
+            <div class="trainer-avatar">MA</div>
+            <h2>Micke "Huvudskada" Andersson</h2>
+            <p class="trainer-role">Boxningstränare</p>
+            <p><a href="#" class="read-more" data-trainer="micke">Läs mer</a></p>
+        </div>
+    </div>
+</main>
+
+<div id="trainerModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="modalBody"></div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+<script src="/js/trainers.js"></script>
+</body>
+</html>

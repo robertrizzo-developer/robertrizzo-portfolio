@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" th:content="${_csrf != null ? _csrf.token : ''}" />
+    <meta name="description" content="Järnvilja Kampsport – Thaiboxning, BJJ, Boxning i Kampsportsstaden">
+    <meta property="og:title" th:content="${title}">
+    <meta property="og:description" content="Boka träningspass och utforska Järnvilja Kampsport">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/svg+xml" th:href="@{/images/favicon.svg}">
+    <title th:text="${title}">Järnvilja Kampsport</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js" defer></script>
+    <script th:src="@{/js/common.js}" defer></script>
+</head>
+
+<header th:fragment="header" role="banner">
+    <a href="#main-content" class="skip-link">Hoppa till innehåll</a>
+    <nav role="navigation" aria-label="Huvudnavigation">
+        <a th:href="@{/index}" th:classappend="${currentPath == '/index' || currentPath == '/'} ? 'active-link'">Startsida</a>
+        <a th:href="@{/om_klubben}" th:classappend="${currentPath == '/om_klubben'} ? 'active-link'">Om klubben</a>
+        <a th:href="@{/tranare}" th:classappend="${currentPath == '/tranare'} ? 'active-link'">Våra tränare</a>
+        <a th:href="@{/traningsschema}" th:classappend="${currentPath == '/traningsschema'} ? 'active-link'">Träningsschema</a>
+        <a th:href="@{/bli_medlem}" th:classappend="${currentPath == '/bli_medlem'} ? 'active-link'">Bli Medlem</a>
+        <a th:href="@{/kontakt}" th:classappend="${currentPath == '/kontakt'} ? 'active-link'">Kontakt</a>
+        <a th:if="${!#authorization.expression('isAuthenticated()')}" th:href="@{/login}" th:classappend="${currentPath == '/login'} ? 'active-link'">Logga in</a>
+        <a sec:authorize="hasAuthority('ROLE_MEMBER')" th:href="@{/memberPage}" th:classappend="${currentPath == '/memberPage'} ? 'active-link'">Min sida</a>
+        <a sec:authorize="hasAuthority('ROLE_ADMIN')" th:href="@{/adminPage}" th:classappend="${currentPath == '/adminPage'} ? 'active-link'">Admin</a>
+        <a sec:authorize="hasAuthority('ROLE_TRAINER')" th:href="@{/trainerPage}" th:classappend="${currentPath == '/trainerPage'} ? 'active-link'">Tränare</a>
+        <form th:if="${#authorization.expression('isAuthenticated()')}" method="post" th:action="@{/logout}" class="logout-form-inline">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <button type="submit" class="nav-link-as-button">Logga ut</button>
+        </form>
+        <span class="hamburger" id="hamburgerToggle" aria-label="Meny" role="button" aria-expanded="false">&#9776;</span>
+    </nav>
+</header>
+
+<div th:fragment="toasts">
+    <div class="toast-container" aria-live="polite">
+        <div th:if="${successMessage}" class="toast toast-success" th:text="${successMessage}"></div>
+        <div th:if="${bookingMessage}" class="toast toast-info" th:text="${bookingMessage}"></div>
+        <div th:if="${errorMessage}" class="toast toast-error" th:text="${errorMessage}"></div>
+    </div>
+</div>
+
+<div th:fragment="confirm-modal">
+    <div class="confirm-modal-overlay" id="confirmModalOverlay">
+        <div class="confirm-modal">
+            <h3>Bekräfta</h3>
+            <p></p>
+            <div class="confirm-modal-actions">
+                <button class="btn-primary btn-confirm">Bekräfta</button>
+                <button class="btn-ghost btn-cancel-modal">Avbryt</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:fragment="footer" role="contentinfo">
+    <p>Kontaktinformation: info@jarnvilja.se | Telefon: 012-345 67 89</p>
+    <p>
+        <a href="https://www.facebook.com/jarnvilja">Facebook</a> |
+        <a href="https://www.instagram.com/jarnvilja">Instagram</a> |
+        <a href="https://www.twitter.com/jarnvilja">Twitter</a>
+    </p>
+    <p>Adress: Kung Fu Gatan 12, 123 45 Kampsportsstaden</p>
+    <p>
+        <a th:href="@{/integritetspolicy}">Integritetspolicy</a> |
+        <a th:href="@{/faq}">Vanliga frågor</a> |
+        <a th:href="@{/om_projektet}">Om projektet</a>
+    </p>
+</footer>
+
+</html>

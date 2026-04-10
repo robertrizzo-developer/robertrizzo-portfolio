@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="sv" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Admin - Järnvilja Kampsport')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<div class="page-with-sidebar">
+    <aside class="sidebar" role="complementary">
+        <h2>Admin</h2>
+        <ul>
+            <li><a href="#stats-section">Översikt</a></li>
+            <li><a href="#users-section">Användare</a></li>
+            <li><a href="#bookings-section">Bokningar</a></li>
+            <li><a href="#classes-section">Träningspass</a></li>
+            <li><a href="#content-section">Innehåll</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+    <h1>Välkommen till Admin-sidan!</h1>
+    <p>Här kan du hantera användare, tränare och andra admin-funktioner.</p>
+
+    <div th:replace="~{fragments/layout :: toasts}"></div>
+
+    <section id="stats-section">
+    <section class="admin-stats">
+        <div class="stat-card">
+            <span class="stat-number" th:text="${usersPage != null ? usersPage.totalElements : 0}">0</span>
+            <span class="stat-label">Användare</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number" th:text="${dashStats != null ? dashStats.totalBookings : 0}">0</span>
+            <span class="stat-label">Bokningar</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number" th:text="${dashStats != null && dashStats.mostPopularClass != null ? dashStats.mostPopularClass : popularClass}">–</span>
+            <span class="stat-label">Populäraste pass</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number" th:text="${dashStats != null ? #numbers.formatDecimal(dashStats.cancellationRate, 1, 0) + '%' : '0%'}">0%</span>
+            <span class="stat-label">Avbokningsgrad</span>
+        </div>
+    </section>
+
+    <div class="admin-range-toggle">
+        <a th:href="@{/adminPage(range='week', role=${selectedRole}, search=${searchQuery}, sortBy=${sortBy})}"
+           th:classappend="${selectedRange == 'week' ? 'active' : ''}" class="range-btn">Vecka</a>
+        <a th:href="@{/adminPage(range='month', role=${selectedRole}, search=${searchQuery}, sortBy=${sortBy})}"
+           th:classappend="${selectedRange == 'month' ? 'active' : ''}" class="range-btn">Månad</a>
+        <a th:href="@{/adminPage(range='year', role=${selectedRole}, search=${searchQuery}, sortBy=${sortBy})}"
+           th:classappend="${selectedRange == 'year' ? 'active' : ''}" class="range-btn">År</a>
+    </div>
+
+    <div class="stats-charts" th:if="${dashStats != null}">
+        <div class="chart-container">
+            <canvas id="adminDayChart" width="400" height="250"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="adminCatChart" width="300" height="250"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="adminTimeChart" width="400" height="250"></canvas>
+        </div>
+    </div>
+
+    <script th:if="${dashStats != null}" th:inline="javascript">
+        /*<![CDATA[*/
+        window._adminStats = {
+            bookingsByDay: /*[[${dashStats.bookingsByDay}]]*/ {},
+            bookingsByCategory: /*[[${dashStats.bookingsByCategory}]]*/ {},
+            bookingsOverTime: /*[[${dashStats.bookingsOverTime}]]*/ {}
+        };
+        /*]]>*/
+    </script>
+    </section>
+
+    <section id="users-section">
+    <h2>Användare</h2>
+
+    <form th:action="@{/adminPage}" method="get" class="admin-filter-form">
+        <input type="hidden" name="range" th:value="${selectedRange}" />
+        <input type="hidden" name="page" value="0" />
+        <input type="hidden" name="bookingPage" th:value="${currentBookingPage}" />
+        <div class="filter-row">
+            <div class="form-group">
+                <label for="role">Roll:</label>
+                <select id="role" name="role">
+                    <option value="">Alla</option>
+                    <option value="ROLE_ADMIN" th:selected="${selectedRole == 'ROLE_ADMIN'}">Admin</option>
+                    <option value="ROLE_MEMBER" th:selected="${selectedRole == 'ROLE_MEMBER'}">Medlem</option>
+                    <option value="ROLE_TRAINER" th:selected="${selectedRole == 'ROLE_TRAINER'}">Tränare</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="search">Sök:</label>
+                <input type="text" id="search" name="search" placeholder="Sök användarnamn..."
+                       th:value="${searchQuery}">
+            </div>
+            <div class="form-group">
+                <label for="sortBy">Sortera:</label>
+                <select id="sortBy" name="sortBy">
+                    <option value="username" th:selected="${sortBy == 'username'}">Användarnamn</option>
+                    <option value="role" th:selected="${sortBy == 'role'}">Roll</option>
+                    <option value="email" th:selected="${sortBy == 'email'}">E-post</option>
+                    <option value="createdAt" th:selected="${sortBy == 'createdAt'}">Medlem sedan</option>
+                    <option value="bookings" th:selected="${sortBy == 'bookings'}">Antal bokningar</option>
+                </select>
+            </div>
+            <div class="form-group" style="align-self: flex-end;">
+                <button type="submit" class="btn-primary">Filtrera</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Användarnamn</th>
+                <th>E-post</th>
+                <th>Roll</th>
+                <th>Sedan</th>
+                <th>Bokningar</th>
+                <th>Åtgärd</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:switch="${user.role.name()}">
+                    <span th:case="'ROLE_ADMIN'">Admin</span>
+                    <span th:case="'ROLE_MEMBER'">Medlem</span>
+                    <span th:case="'ROLE_TRAINER'">Tränare</span>
+                </td>
+                <td th:text="${user.createdAt != null ? #temporals.format(user.createdAt, 'yyyy-MM-dd') : '–'}">–</td>
+                <td th:text="${bookingCounts != null && bookingCounts.containsKey(user.id) ? bookingCounts.get(user.id) : 0}">0</td>
+                <td class="action-cell">
+                    <a th:href="@{/adminPage/editUser/{id}(id=${user.id})}" class="btn-ghost">Redigera</a>
+                    <form th:action="@{/adminPage/{id}(id=${user.id})}" method="post" class="inline-form"
+                          data-confirm="Är du säker på att du vill ta bort denna användare?">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <button type="submit" class="btn-danger">Ta bort</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <nav class="pagination" th:if="${usersPage != null && usersPage.totalPages > 1}" aria-label="Användarsida">
+        <span class="pagination-info" th:text="'Sida ' + (usersPage.number + 1) + ' av ' + usersPage.totalPages">Sida 1 av 1</span>
+        <div class="pagination-links">
+            <a th:if="${usersPage.hasPrevious()}" th:href="@{/adminPage(range=${selectedRange}, role=${selectedRole}, search=${searchQuery}, sortBy=${sortBy}, page=${usersPage.number - 1}, bookingPage=${currentBookingPage})}" class="btn-ghost">Föregående</a>
+            <span th:unless="${usersPage.hasPrevious()}" class="btn-ghost disabled">Föregående</span>
+            <a th:if="${usersPage.hasNext()}" th:href="@{/adminPage(range=${selectedRange}, role=${selectedRole}, search=${searchQuery}, sortBy=${sortBy}, page=${usersPage.number + 1}, bookingPage=${currentBookingPage})}" class="btn-ghost">Nästa</a>
+            <span th:unless="${usersPage.hasNext()}" class="btn-ghost disabled">Nästa</span>
+        </div>
+    </nav>
+    </section>
+
+    <section id="bookings-section">
+    <h2>Bokningar</h2>
+    <div class="table-responsive">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Användare</th>
+                <th>Träningspass</th>
+                <th>Status</th>
+                <th>Åtgärd</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="booking : ${bookings}">
+                <td th:text="${booking.id}"></td>
+                <td th:text="${booking.member.username}"></td>
+                <td th:text="${booking.trainingClass.title}"></td>
+                <td th:switch="${booking.bookingStatus.name()}">
+                    <span th:case="'CONFIRMED'" class="status-confirmed">Bekräftad</span>
+                    <span th:case="'PENDING'" class="status-pending">Väntande</span>
+                    <span th:case="'CANCELLED'" class="status-cancelled">Avbokad</span>
+                    <span th:case="'CANCELLED_BY_MEMBER'" class="status-cancelled">Avbokad av medlem</span>
+                    <span th:case="'EXPIRED'" class="status-expired">Utgången</span>
+                    <span th:case="'WAITLISTED'" class="status-pending">Väntelista</span>
+                </td>
+                <td>
+                    <form th:action="@{/adminPage/deleteBooking/{bookingId}(bookingId=${booking.id})}" method="post" class="inline-form">
+                        <input type="hidden" name="_method" value="delete" />
+                        <button type="submit" class="btn-danger">Ta bort</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <nav class="pagination" th:if="${bookingsPage != null && bookingsPage.totalPages > 1}" aria-label="Bokningssida">
+        <span class="pagination-info" th:text="'Sida ' + (bookingsPage.number + 1) + ' av ' + bookingsPage.totalPages">Sida 1 av 1</span>
+        <div class="pagination-links">
+            <a th:if="${bookingsPage.hasPrevious()}" th:href="@{/adminPage(range=${selectedRange}, role=${selectedRole}, search=${searchQuery}, sortBy=${sortBy}, page=${currentPage}, bookingPage=${bookingsPage.number - 1})}" class="btn-ghost">Föregående</a>
+            <span th:unless="${bookingsPage.hasPrevious()}" class="btn-ghost disabled">Föregående</span>
+            <a th:if="${bookingsPage.hasNext()}" th:href="@{/adminPage(range=${selectedRange}, role=${selectedRole}, search=${searchQuery}, sortBy=${sortBy}, page=${currentPage}, bookingPage=${bookingsPage.number + 1})}" class="btn-ghost">Nästa</a>
+            <span th:unless="${bookingsPage.hasNext()}" class="btn-ghost disabled">Nästa</span>
+        </div>
+    </nav>
+
+    <h2>Träningspass</h2>
+    <div style="margin-bottom: 16px;">
+        <a th:href="@{/adminPage/classes/new}" class="btn-primary">Skapa nytt pass</a>
+    </div>
+    <div class="table-responsive">
+        <table>
+            <thead>
+            <tr>
+                <th>Titel</th>
+                <th>Dag</th>
+                <th>Tid</th>
+                <th>Kategori</th>
+                <th>Matta</th>
+                <th>Kapacitet</th>
+                <th>Tränare</th>
+                <th>Åtgärd</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="tc : ${trainingClasses}">
+                <td th:text="${tc.title}"></td>
+                <td th:switch="${tc.trainingDay?.name()}">
+                    <span th:case="'MONDAY'">Måndag</span>
+                    <span th:case="'TUESDAY'">Tisdag</span>
+                    <span th:case="'WEDNESDAY'">Onsdag</span>
+                    <span th:case="'THURSDAY'">Torsdag</span>
+                    <span th:case="'FRIDAY'">Fredag</span>
+                    <span th:case="'SATURDAY'">Lördag</span>
+                    <span th:case="'SUNDAY'">Söndag</span>
+                </td>
+                <td>
+                    <span th:text="${tc.startTime != null ? #temporals.format(tc.startTime, 'HH:mm') : ''}"></span>–<span th:text="${tc.endTime != null ? #temporals.format(tc.endTime, 'HH:mm') : ''}"></span>
+                </td>
+                <td th:text="${tc.category}"></td>
+                <td th:text="${tc.matta}"></td>
+                <td th:text="${tc.maxCapacity}"></td>
+                <td th:text="${tc.trainer != null ? tc.trainer.username : '–'}"></td>
+                <td class="action-cell">
+                    <a th:href="@{/adminPage/classes/{id}/edit(id=${tc.id})}" class="btn-ghost">Redigera</a>
+                    <form th:action="@{/adminPage/classes/{id}/delete(id=${tc.id})}" method="post" class="inline-form"
+                          data-confirm="Är du säker på att du vill ta bort detta träningspass?">
+                        <button type="submit" class="btn-danger">Ta bort</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <section id="content-section">
+    <h2>Redigerbart innehåll</h2>
+    <p class="content-section-desc">Här kan du redigera texter som visas på webbplatsen (t.ex. startsidan).</p>
+    <form th:action="@{/adminPage/content}" method="post" class="content-edit-form">
+        <div th:each="c : ${editableContent}" class="content-edit-row">
+            <label th:for="${'content-' + c.key}" th:text="${c.key}">key</label>
+            <textarea th:id="${'content-' + c.key}" th:name="${'value_' + c.key}" th:text="${c.value}" rows="2"></textarea>
+            <span class="content-meta" th:if="${c.lastModified != null}" th:text="'Senast ändrad: ' + ${#temporals.format(c.lastModified, 'yyyy-MM-dd HH:mm')}">–</span>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Spara innehåll</button>
+        </div>
+    </form>
+    <p th:if="${#lists.isEmpty(editableContent)}" class="empty-message">Inget redigerbart innehåll konfigurerat.</p>
+    </section>
+</main>
+
+<div th:replace="~{fragments/layout :: confirm-modal}"></div>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+<script src="/js/admin-charts.js"></script>
+</body>
+</html>

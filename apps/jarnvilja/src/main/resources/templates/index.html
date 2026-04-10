@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Järnvilja Kampsport - Startsida')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<div class="hero">
+    <h1 th:text="${@contentService.get('homepage.hero.title', 'Det är inte de starkaste som vinner -- det är de som aldrig slutar kämpa.')}">Det är inte de starkaste som vinner -- det är de som aldrig slutar kämpa.</h1>
+    <p th:text="${@contentService.get('homepage.hero.subtitle', 'Bli Medlem idag!')}">Bli Medlem idag!</p>
+    <div class="hero-buttons">
+        <a th:href="@{/login}" class="btn-primary">Testa demo</a>
+        <a th:href="@{/bli_medlem}" class="btn-ghost">Bli Medlem Idag</a>
+    </div>
+</div>
+
+<main>
+    <section class="features-section">
+        <h2>Våra Kampsporter</h2>
+        <div class="feature-cards">
+            <div class="feature-card">
+                <h3>Thaiboxning</h3>
+                <p>Slag, sparkar, knän och armbågar -- den kompletta kampkonsten.</p>
+                <a th:href="@{/traningsschema}" class="feature-link">Se schema</a>
+            </div>
+            <div class="feature-card">
+                <h3>BJJ</h3>
+                <p>Brazilian Jiu-Jitsu -- teknik och positionering på mattan.</p>
+                <a th:href="@{/traningsschema}" class="feature-link">Se schema</a>
+            </div>
+            <div class="feature-card">
+                <h3>Boxning &amp; Fys</h3>
+                <p>Klassisk boxning och funktionell styrketräning.</p>
+                <a th:href="@{/traningsschema}" class="feature-link">Se schema</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="stat-item"><span class="stat-number">70+</span><span class="stat-label">Pass per vecka</span></div>
+        <div class="stat-item"><span class="stat-number">8</span><span class="stat-label">Tränare</span></div>
+        <div class="stat-item"><span class="stat-number">3</span><span class="stat-label">Kamparter</span></div>
+    </section>
+
+    <section class="how-to-section">
+        <h2>Kom igång</h2>
+        <div class="steps">
+            <div class="step"><span class="step-number">1</span><p>Kolla in vårt <a th:href="@{/traningsschema}">träningsschema</a></p></div>
+            <div class="step"><span class="step-number">2</span><p><a th:href="@{/register}">Registrera dig</a> som medlem</p></div>
+            <div class="step"><span class="step-number">3</span><p>Boka ditt första pass</p></div>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="sv" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Redigera Pass - Järnvilja Kampsport')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<main>
+    <h1>Redigera: <span th:text="${trainingClass.title}">Pass</span></h1>
+
+    <form th:action="@{/trainerPage/classes/{id}(id=${trainingClass.id})}" method="post">
+
+        <div class="form-group">
+            <label for="description">Beskrivning:</label>
+            <textarea id="description" name="description" rows="3" th:text="${trainingClass.description}"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="startTime">Starttid:</label>
+            <input type="time" id="startTime" name="startTime"
+                   th:value="${trainingClass.startTime != null ? #temporals.format(trainingClass.startTime, 'HH:mm') : ''}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="endTime">Sluttid:</label>
+            <input type="time" id="endTime" name="endTime"
+                   th:value="${trainingClass.endTime != null ? #temporals.format(trainingClass.endTime, 'HH:mm') : ''}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="maxCapacity">Max kapacitet:</label>
+            <input type="number" id="maxCapacity" name="maxCapacity" th:value="${trainingClass.maxCapacity}" min="1" required>
+        </div>
+
+        <button type="submit" class="btn-primary">Spara ändringar</button>
+    </form>
+
+    <p style="margin-top: 20px;"><a th:href="@{/trainerPage}" class="btn-ghost">Tillbaka till översikt</a></p>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

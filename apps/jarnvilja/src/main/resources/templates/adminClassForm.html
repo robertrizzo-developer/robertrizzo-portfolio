@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="sv" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head((${isEdit} ? 'Redigera' : 'Skapa') + ' Träningspass - Järnvilja Kampsport')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<main>
+    <h1 th:text="${isEdit} ? 'Redigera Träningspass' : 'Skapa Träningspass'">Träningspass</h1>
+
+    <form th:if="${isEdit}" th:action="@{/adminPage/classes/{id}(id=${trainingClass.id})}" method="post">
+
+        <div class="form-group">
+            <label for="title-edit">Titel:</label>
+            <input type="text" id="title-edit" name="title" th:value="${trainingClass.title}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description-edit">Beskrivning:</label>
+            <textarea id="description-edit" name="description" rows="3" th:text="${trainingClass.description}"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="trainingDay-edit">Dag:</label>
+            <select id="trainingDay-edit" name="trainingDay" required>
+                <option value="MONDAY" th:selected="${trainingClass.trainingDay?.name() == 'MONDAY'}">Måndag</option>
+                <option value="TUESDAY" th:selected="${trainingClass.trainingDay?.name() == 'TUESDAY'}">Tisdag</option>
+                <option value="WEDNESDAY" th:selected="${trainingClass.trainingDay?.name() == 'WEDNESDAY'}">Onsdag</option>
+                <option value="THURSDAY" th:selected="${trainingClass.trainingDay?.name() == 'THURSDAY'}">Torsdag</option>
+                <option value="FRIDAY" th:selected="${trainingClass.trainingDay?.name() == 'FRIDAY'}">Fredag</option>
+                <option value="SATURDAY" th:selected="${trainingClass.trainingDay?.name() == 'SATURDAY'}">Lördag</option>
+                <option value="SUNDAY" th:selected="${trainingClass.trainingDay?.name() == 'SUNDAY'}">Söndag</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="matta-edit">Matta:</label>
+            <select id="matta-edit" name="matta" required>
+                <option value="MATTA_1" th:selected="${trainingClass.matta?.name() == 'MATTA_1'}">Matta 1</option>
+                <option value="MATTA_2" th:selected="${trainingClass.matta?.name() == 'MATTA_2'}">Matta 2</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="startTime-edit">Starttid:</label>
+            <input type="time" id="startTime-edit" name="startTime"
+                   th:value="${trainingClass.startTime != null ? #temporals.format(trainingClass.startTime, 'HH:mm') : ''}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="endTime-edit">Sluttid:</label>
+            <input type="time" id="endTime-edit" name="endTime"
+                   th:value="${trainingClass.endTime != null ? #temporals.format(trainingClass.endTime, 'HH:mm') : ''}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="category-edit">Kategori:</label>
+            <select id="category-edit" name="category" required>
+                <option value="BJJ" th:selected="${trainingClass.category?.name() == 'BJJ'}">BJJ</option>
+                <option value="THAIBOXNING" th:selected="${trainingClass.category?.name() == 'THAIBOXNING'}">Thaiboxning</option>
+                <option value="BOXNING" th:selected="${trainingClass.category?.name() == 'BOXNING'}">Boxning</option>
+                <option value="FYS" th:selected="${trainingClass.category?.name() == 'FYS'}">Fys</option>
+                <option value="SPARRING" th:selected="${trainingClass.category?.name() == 'SPARRING'}">Sparring</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="maxCapacity-edit">Max kapacitet:</label>
+            <input type="number" id="maxCapacity-edit" name="maxCapacity" th:value="${trainingClass.maxCapacity}" min="1" required>
+        </div>
+
+        <div class="form-group">
+            <label for="trainerId-edit">Tränare:</label>
+            <select id="trainerId-edit" name="trainerId">
+                <option value="">Ingen tränare</option>
+                <option th:each="trainer : ${trainers}" th:value="${trainer.id}" th:text="${trainer.username}"
+                        th:selected="${trainingClass.trainer != null and trainingClass.trainer.id == trainer.id}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="status-edit">Status:</label>
+            <select id="status-edit" name="status">
+                <option value="ACTIVE" th:selected="${trainingClass.status?.name() == 'ACTIVE'}">Aktiv</option>
+                <option value="CANCELLED" th:selected="${trainingClass.status?.name() == 'CANCELLED'}">Inställd</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn-primary">Uppdatera</button>
+    </form>
+
+    <form th:unless="${isEdit}" th:action="@{/adminPage/classes}" method="post">
+
+        <div class="form-group">
+            <label for="title-new">Titel:</label>
+            <input type="text" id="title-new" name="title" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description-new">Beskrivning:</label>
+            <textarea id="description-new" name="description" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="trainingDay-new">Dag:</label>
+            <select id="trainingDay-new" name="trainingDay" required>
+                <option value="MONDAY">Måndag</option>
+                <option value="TUESDAY">Tisdag</option>
+                <option value="WEDNESDAY">Onsdag</option>
+                <option value="THURSDAY">Torsdag</option>
+                <option value="FRIDAY">Fredag</option>
+                <option value="SATURDAY">Lördag</option>
+                <option value="SUNDAY">Söndag</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="matta-new">Matta:</label>
+            <select id="matta-new" name="matta" required>
+                <option value="MATTA_1">Matta 1</option>
+                <option value="MATTA_2">Matta 2</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="startTime-new">Starttid:</label>
+            <input type="time" id="startTime-new" name="startTime" required>
+        </div>
+
+        <div class="form-group">
+            <label for="endTime-new">Sluttid:</label>
+            <input type="time" id="endTime-new" name="endTime" required>
+        </div>
+
+        <div class="form-group">
+            <label for="category-new">Kategori:</label>
+            <select id="category-new" name="category" required>
+                <option value="BJJ">BJJ</option>
+                <option value="THAIBOXNING">Thaiboxning</option>
+                <option value="BOXNING">Boxning</option>
+                <option value="FYS">Fys</option>
+                <option value="SPARRING">Sparring</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="maxCapacity-new">Max kapacitet:</label>
+            <input type="number" id="maxCapacity-new" name="maxCapacity" value="20" min="1" required>
+        </div>
+
+        <div class="form-group">
+            <label for="trainerId-new">Tränare:</label>
+            <select id="trainerId-new" name="trainerId">
+                <option value="">Ingen tränare</option>
+                <option th:each="trainer : ${trainers}" th:value="${trainer.id}" th:text="${trainer.username}"></option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn-primary">Skapa</button>
+    </form>
+
+    <p style="margin-top: 20px;"><a th:href="@{/adminPage}" class="btn-ghost">Tillbaka till admin</a></p>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

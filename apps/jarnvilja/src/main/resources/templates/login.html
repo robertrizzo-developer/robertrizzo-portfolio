@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Logga in - Järnvilja Kampsport')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<main>
+    <div class="login-container">
+        <h1>Logga in</h1>
+        <div th:if="${param.error}" class="alert alert-error">
+            <p>Felaktigt användarnamn eller lösenord.</p>
+        </div>
+        <div th:if="${param.expired}" class="alert alert-warning">
+            <p>Din session har löpt ut. Logga in igen.</p>
+        </div>
+        <div th:if="${param.logout}" class="alert alert-success">
+            <p>Du har loggats ut.</p>
+        </div>
+        <div th:if="${param.success}" class="alert alert-success">
+            <p>Registrering lyckades! Logga in med ditt konto.</p>
+        </div>
+        <form method="POST" th:action="@{/login}">
+            <div class="form-group">
+                <label for="username">Användarnamn</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Lösenord</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn-primary">Logga in</button>
+        </form>
+        <div class="login-footer">
+            <p>Har du inget konto? <a th:href="@{/register}">Registrera dig här</a></p>
+        </div>
+
+        <div class="demo-banner">
+            <h3>Testa Demo</h3>
+            <p>Klicka för att logga in som:</p>
+            <div class="demo-buttons">
+                <button type="button" class="demo-btn" data-user="demo" data-pass="demo123">Medlem</button>
+                <button type="button" class="demo-btn" data-user="demo_admin" data-pass="demo123">Admin</button>
+                <button type="button" class="demo-btn" data-user="demo_trainer" data-pass="demo123">Tränare</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+<script>
+document.querySelectorAll('.demo-btn[data-user]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        document.getElementById('username').value = this.dataset.user;
+        document.getElementById('password').value = this.dataset.pass;
+        document.querySelector('form').submit();
+    });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="sv" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Medlemssida - Järnvilja Kampsport')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<div class="page-with-sidebar">
+    <aside class="sidebar" role="complementary">
+        <h2>Mitt Konto</h2>
+        <ul>
+            <li><a href="#profile-section">Min profil</a></li>
+            <li><a href="#stats-section">Träningsstatistik</a></li>
+            <li><a href="#bookings-section">Mina bokningar</a></li>
+            <li><a href="#schedule-section">Tillgängliga pass</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div th:if="${onboarding}" class="onboarding-banner" id="onboardingBanner">
+            <p>Välkommen till jarnviljas demo! Bläddra bland träningspass per dag, boka ett pass och se dina bokningar nedan.</p>
+            <button id="closeBannerBtn" class="close-banner">Stäng</button>
+        </div>
+
+        <div th:replace="~{fragments/layout :: toasts}"></div>
+
+        <section id="profile-section">
+            <h1>Välkommen, <span sec:authentication="name"></span>!</h1>
+
+            <div class="profile-info-card">
+                <div class="profile-avatar">
+                    <span th:text="${member.username != null ? member.username.substring(0,1).toUpperCase() : '?'}">?</span>
+                </div>
+                <div class="profile-info-body">
+                    <h3 th:text="${member.firstName != null && member.lastName != null ? member.firstName + ' ' + member.lastName : member.username}">Namn</h3>
+                    <p th:text="${member.email}">e-post</p>
+                    <div class="profile-meta">
+                        <span class="role-badge">Medlem</span>
+                        <span th:if="${member.profileVisible}" class="visibility-badge visible">Synlig</span>
+                        <span th:unless="${member.profileVisible}" class="visibility-badge hidden">Dold</span>
+                        <span class="member-since">Sedan <span th:text="${member.createdAt != null ? #temporals.format(member.createdAt, 'yyyy-MM-dd') : '–'}">–</span></span>
+                    </div>
+                </div>
+                <div class="profile-quick-stats" th:if="${stats != null}">
+                    <div><strong th:text="${stats.totalBookings}">0</strong> bokningar</div>
+                    <div><strong th:text="${stats.currentStreak}">0</strong> veckor i rad</div>
+                    <div>Favorit: <strong th:text="${stats.mostBookedClass != null ? stats.mostBookedClass : '–'}">–</strong></div>
+                </div>
+            </div>
+
+            <details class="profile-details">
+                <summary>Redigera profil</summary>
+                <div class="profile-grid">
+                    <div class="profile-card">
+                        <h3>Uppdatera e-post</h3>
+                        <form th:action="@{/memberPage/profile/update}" method="post">
+                            <div class="form-group">
+                                <label for="email">E-post</label>
+                                <input type="email" id="email" name="email" th:value="${member.email}" required>
+                            </div>
+                            <button type="submit" class="btn-primary">Spara</button>
+                        </form>
+                    </div>
+                    <div class="profile-card">
+                        <h3>Byt lösenord</h3>
+                        <form th:action="@{/memberPage/profile/password}" method="post">
+                            <div class="form-group">
+                                <label for="currentPassword">Nuvarande lösenord</label>
+                                <input type="password" id="currentPassword" name="currentPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword">Nytt lösenord</label>
+                                <input type="password" id="newPassword" name="newPassword" required minlength="8">
+                            </div>
+                            <button type="submit" class="btn-primary">Byt lösenord</button>
+                        </form>
+                    </div>
+                    <div class="profile-card">
+                        <h3>Profilsynlighet</h3>
+                        <p th:text="${member.profileVisible ? 'Din profil är synlig för tränare.' : 'Din profil är dold.'}">Status</p>
+                        <form th:action="@{/memberPage/profile/visibility}" method="post">
+                            <button type="submit" class="btn-secondary"
+                                    th:text="${member.profileVisible ? 'Dölj profil' : 'Visa profil'}">Toggle</button>
+                        </form>
+                    </div>
+                </div>
+            </details>
+        </section>
+
+        <section id="stats-section">
+            <details open>
+                <summary><h2 style="display:inline">Träningsstatistik</h2></summary>
+                <div class="member-stats">
+                    <div class="stat-card">
+                        <span class="stat-number" th:text="${stats != null ? stats.totalBookings : 0}">0</span>
+                        <span class="stat-label">Bokningar</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" th:text="${stats != null ? stats.mostBookedClass : '–'}">–</span>
+                        <span class="stat-label">Mest bokat</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" th:text="${stats != null ? #numbers.formatDecimal(stats.avgSessionsPerWeek, 1, 1) : '0'}">0</span>
+                        <span class="stat-label">Pass/vecka</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" th:text="${stats != null ? stats.currentStreak : 0}">0</span>
+                        <span class="stat-label">Veckor i rad</span>
+                    </div>
+                </div>
+                <div class="stats-charts" th:if="${stats != null && !stats.categoryBreakdown.isEmpty()}">
+                    <div class="chart-container">
+                        <canvas id="categoryChart" width="250" height="250"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="monthlyChart" width="400" height="250"></canvas>
+                    </div>
+                </div>
+            </details>
+        </section>
+
+        <script th:if="${stats != null}" th:inline="javascript">
+            /*<![CDATA[*/
+            window._statsData = {
+                categoryBreakdown: /*[[${stats.categoryBreakdown}]]*/ {},
+                monthlyTrend: /*[[${stats.monthlyTrend}]]*/ {}
+            };
+            /*]]>*/
+        </script>
+
+        <section id="schedule-section">
+            <h2>Tillgängliga Träningspass</h2>
+
+            <div class="category-filters">
+                <button class="category-btn active" data-category="all">Alla pass</button>
+                <button class="category-btn" data-category="BJJ">BJJ</button>
+                <button class="category-btn" data-category="THAIBOXNING">Thaiboxning</button>
+                <button class="category-btn" data-category="BOXNING">Boxning</button>
+                <button class="category-btn" data-category="FYS">Fys</button>
+                <button class="category-btn" data-category="SPARRING">Sparring</button>
+            </div>
+
+            <div class="day-buttons">
+                <button data-day="monday">Måndag</button>
+                <button data-day="tuesday">Tisdag</button>
+                <button data-day="wednesday">Onsdag</button>
+                <button data-day="thursday">Torsdag</button>
+                <button data-day="friday">Fredag</button>
+                <button data-day="saturday">Lördag</button>
+                <button data-day="sunday">Söndag</button>
+            </div>
+
+            <div th:each="day : ${daysOfWeek}">
+                <div class="day-schedule" th:attr="id=${#strings.toLowerCase(day.name())}" style="display:none;">
+                    <h3 th:switch="${day}">
+                        <span th:case="MONDAY">Måndag</span>
+                        <span th:case="TUESDAY">Tisdag</span>
+                        <span th:case="WEDNESDAY">Onsdag</span>
+                        <span th:case="THURSDAY">Torsdag</span>
+                        <span th:case="FRIDAY">Fredag</span>
+                        <span th:case="SATURDAY">Lördag</span>
+                        <span th:case="SUNDAY">Söndag</span>
+                    </h3>
+
+                    <div class="matta-columns">
+                        <div class="matta-column">
+                            <h4>Matta 1</h4>
+                            <div th:each="trainingClass : ${matta1Pass}">
+                                <div th:if="${trainingClass.trainingDay == day}" class="class-entry"
+                                     th:data-category="${trainingClass.category != null ? trainingClass.category.name() : ''}">
+                                    <div class="class-info">
+                                        <strong th:text="${trainingClass.title}">Titel</strong><br>
+                                        <span th:text="${#temporals.format(trainingClass.startTime, 'HH:mm')}"></span> -
+                                        <span th:text="${#temporals.format(trainingClass.endTime, 'HH:mm')}"></span><br>
+                                        Tränare: <span th:text="${trainingClass.trainer != null ? trainingClass.trainer.username : 'Ej tilldelad'}"></span><br>
+                                        <span class="capacity-text">
+                                            <span th:text="${capacityUsed != null && capacityUsed.containsKey(trainingClass.id) ? capacityUsed.get(trainingClass.id) : 0}">0</span>/<span th:text="${trainingClass.maxCapacity > 0 ? trainingClass.maxCapacity : 20}">20</span> platser
+                                        </span>
+                                        <span th:if="${capacityUsed != null && capacityUsed.containsKey(trainingClass.id) && trainingClass.maxCapacity > 0 && capacityUsed.get(trainingClass.id) >= trainingClass.maxCapacity}" class="badge-full">Fullt</span>
+                                    </div>
+                                    <form th:action="@{/memberPage/{memberId}/bookings(memberId=${member.id})}" method="post" class="inline-form">
+                                        <input type="hidden" name="trainingClassId" th:value="${trainingClass.id}" />
+                                        <button type="submit" class="btn-primary">Boka</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="matta-column">
+                            <h4>Matta 2</h4>
+                            <div th:each="trainingClass : ${matta2Pass}">
+                                <div th:if="${trainingClass.trainingDay == day}" class="class-entry"
+                                     th:data-category="${trainingClass.category != null ? trainingClass.category.name() : ''}">
+                                    <div class="class-info">
+                                        <strong th:text="${trainingClass.title}">Titel</strong><br>
+                                        <span th:text="${#temporals.format(trainingClass.startTime, 'HH:mm')}"></span> -
+                                        <span th:text="${#temporals.format(trainingClass.endTime, 'HH:mm')}"></span><br>
+                                        Tränare: <span th:text="${trainingClass.trainer != null ? trainingClass.trainer.username : 'Ej tilldelad'}"></span><br>
+                                        <span class="capacity-text">
+                                            <span th:text="${capacityUsed != null && capacityUsed.containsKey(trainingClass.id) ? capacityUsed.get(trainingClass.id) : 0}">0</span>/<span th:text="${trainingClass.maxCapacity > 0 ? trainingClass.maxCapacity : 20}">20</span> platser
+                                        </span>
+                                        <span th:if="${capacityUsed != null && capacityUsed.containsKey(trainingClass.id) && trainingClass.maxCapacity > 0 && capacityUsed.get(trainingClass.id) >= trainingClass.maxCapacity}" class="badge-full">Fullt</span>
+                                    </div>
+                                    <form th:action="@{/memberPage/{memberId}/bookings(memberId=${member.id})}" method="post" class="inline-form">
+                                        <input type="hidden" name="trainingClassId" th:value="${trainingClass.id}" />
+                                        <button type="submit" class="btn-primary">Boka</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="bookings-section">
+            <div class="section-header">
+                <h2>Mina Bokningar</h2>
+                <form th:if="${!#lists.isEmpty(upcomingBookings)}"
+                      th:action="@{/memberPage/bookings/cancel-all}" method="post" class="inline-form"
+                      data-confirm="Är du säker på att du vill avboka alla dina bokningar?">
+                    <button type="submit" class="btn-danger">Avboka alla</button>
+                </form>
+            </div>
+
+            <div class="booking-tabs">
+                <button class="booking-tab active" data-tab="upcoming-panel">Kommande</button>
+                <button class="booking-tab" data-tab="past-panel">Tidigare</button>
+            </div>
+
+            <div id="upcoming-panel" class="booking-panel">
+                <div th:if="${#lists.isEmpty(upcomingBookings)}" class="empty-message">
+                    <p>Du har inga kommande bokningar.</p>
+                </div>
+                <div class="booking-cards">
+                    <div th:each="booking : ${upcomingBookings}" class="booking-card">
+                        <div class="booking-card-header">
+                            <strong th:text="${booking.trainingClass.title}">Titel</strong>
+                            <span class="booking-badge" th:classappend="${booking.bookingStatus.name() == 'WAITLISTED' ? 'badge-waitlisted' : 'badge-confirmed'}"
+                                  th:text="${booking.bookingStatus.name() == 'WAITLISTED' ? 'Väntelista' : 'Bekräftad'}">Status</span>
+                        </div>
+                        <div class="booking-card-body">
+                            <span th:switch="${booking.trainingClass.trainingDay.name()}">
+                                <span th:case="'MONDAY'">Måndag</span>
+                                <span th:case="'TUESDAY'">Tisdag</span>
+                                <span th:case="'WEDNESDAY'">Onsdag</span>
+                                <span th:case="'THURSDAY'">Torsdag</span>
+                                <span th:case="'FRIDAY'">Fredag</span>
+                                <span th:case="'SATURDAY'">Lördag</span>
+                                <span th:case="'SUNDAY'">Söndag</span>
+                            </span>
+                            &middot;
+                            <span th:text="${#temporals.format(booking.trainingClass.startTime, 'HH:mm')}"></span> -
+                            <span th:text="${#temporals.format(booking.trainingClass.endTime, 'HH:mm')}"></span>
+                            &middot;
+                            <span th:text="${booking.trainingClass.trainer != null ? booking.trainingClass.trainer.username : 'Ej tilldelad'}">Tränare</span>
+                        </div>
+                        <div class="booking-card-footer">
+                            <span class="booking-date">Bokad: <span th:text="${#temporals.format(booking.bookingDate, 'yyyy-MM-dd')}">Datum</span></span>
+                            <form th:action="@{/memberPage/bookings/{bookingId}(bookingId=${booking.id})}" method="post" class="inline-form"
+                                  data-confirm="Är du säker på att du vill avboka detta träningspass?">
+                                <input type="hidden" name="_method" value="delete"/>
+                                <button type="submit" class="btn-danger">Avboka</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="past-panel" class="booking-panel" style="display:none;">
+                <div th:if="${#lists.isEmpty(pastBookings)}" class="empty-message">
+                    <p>Du har inga tidigare bokningar.</p>
+                </div>
+                <div class="booking-cards">
+                    <div th:each="booking : ${pastBookings}" class="booking-card booking-card-past">
+                        <div class="booking-card-header">
+                            <strong th:text="${booking.trainingClass.title}">Titel</strong>
+                        </div>
+                        <div class="booking-card-body">
+                            <span th:switch="${booking.trainingClass.trainingDay.name()}">
+                                <span th:case="'MONDAY'">Måndag</span>
+                                <span th:case="'TUESDAY'">Tisdag</span>
+                                <span th:case="'WEDNESDAY'">Onsdag</span>
+                                <span th:case="'THURSDAY'">Torsdag</span>
+                                <span th:case="'FRIDAY'">Fredag</span>
+                                <span th:case="'SATURDAY'">Lördag</span>
+                                <span th:case="'SUNDAY'">Söndag</span>
+                            </span>
+                            &middot;
+                            <span th:text="${#temporals.format(booking.trainingClass.startTime, 'HH:mm')}"></span> -
+                            <span th:text="${#temporals.format(booking.trainingClass.endTime, 'HH:mm')}"></span>
+                            &middot;
+                            Bokad: <span th:text="${#temporals.format(booking.bookingDate, 'yyyy-MM-dd')}">Datum</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<div th:replace="~{fragments/layout :: confirm-modal}"></div>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+<script src="/js/schedule.js"></script>
+<script src="/js/stats-charts.js"></script>
+</body>
+</html>
