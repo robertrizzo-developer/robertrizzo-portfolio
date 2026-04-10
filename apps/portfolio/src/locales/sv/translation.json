@@ -1,0 +1,214 @@
+{
+  "nav": {
+    "home": "Hem",
+    "about": "Om mig",
+    "projects": "Projekt",
+    "contact": "Kontakt"
+  },
+  "home": {
+    "name": "Robert Rizzo",
+    "tagline": "Javautvecklare | Backend- & Systemutveckling",
+    "subtitle": "Jag bygger pålitliga backend-system och REST API:er. Studerar just nu till Javautvecklare på IT-Högskolan med fokus på Spring Boot, databaser och mjukvaruarkitektur.",
+    "availability": "Examen maj 2026 — söker aktivt juniorroller inom backend- och systemutveckling.",
+    "downloadCv": "Ladda ner CV"
+  },
+  "about": {
+    "title": "Om mig",
+    "bio": "Javautvecklare under utbildning vid IT-Högskolan med inriktning mot backend-utveckling, systemdesign och mjukvaruarkitektur. Har levererat ett produktionssystem åt en ideell organisation och har även grundläggande erfarenhet av frontend-utveckling med React. Söker en juniorroll inom backend- eller systemutveckling.",
+    "educationTitle": "Utbildning",
+    "education": [
+      "Javautvecklare — IT-Högskolan (examen maj 2026)",
+      "Exempel Tidigare Utbildning — Platshållarskola (2020)"
+    ],
+    "coursesTitle": "Tekniska kurser",
+    "courses": [
+      "Java & Objektorienterad Programmering",
+      "Spring Boot & Backend-utveckling",
+      "Databaser & SQL",
+      "Frontend-utveckling (HTML, CSS, JavaScript, React)",
+      "REST API:er & Webbtjänster",
+      "Agil utveckling & Scrum"
+    ],
+    "experienceTitle": "Erfarenhet",
+    "experience": [
+      "Webbutvecklare — Fiskeklubb (volontär, produktionssystem)",
+      "Ungdomsledare & Styrelseledamot — Fiskeklubb (pågående)",
+      "Exempelroll — Exempelföretag (platshållare)"
+    ],
+    "skillsTitle": "Tekniska färdigheter"
+  },
+  "skills": {
+    "backendJava": {
+      "title": "Backend & Java",
+      "items": ["Java", "Spring Boot", "REST API:er", "Maven"]
+    },
+    "databases": {
+      "title": "Databaser",
+      "items": ["PostgreSQL", "Spring Data JPA", "Flyway"]
+    },
+    "testing": {
+      "title": "Testning & Kvalitet",
+      "items": ["JUnit 5", "Mockito", "Testcontainers", "TDD"]
+    },
+    "security": {
+      "title": "Säkerhet",
+      "items": ["Spring Security", "JWT", "BCrypt"]
+    },
+    "devops": {
+      "title": "DevOps & Verktyg",
+      "items": ["Git", "Docker", "GitHub Actions", "Linux"]
+    },
+    "architecture": {
+      "title": "Arkitektur & Metodik",
+      "items": ["Ren Arkitektur", "OOP", "Agil/Scrum", "Strukturerad loggning"]
+    }
+  },
+  "projects": {
+    "title": "Projekt",
+    "viewProject": "Live Demo",
+    "tryOutProject": "Prova projektet",
+    "problemLabel": "Problem",
+    "architectureLabel": "Arkitektur & Tekniska beslut",
+    "designLabel": "Design",
+    "databaseLabel": "Databas",
+    "scalabilityLabel": "Skalbarhet",
+    "tradeoffsLabel": "Avvägningar",
+    "items": [
+      {
+        "emoji": "📦",
+        "title": "BookingAPI",
+        "problem": "Inget befintligt boknings-backend passade för små organisationer som behöver hantera rum- eller eventbokningar med autentisering och konfliktdetektering.",
+        "solution": "REST API för bokningshantering med JWT-autentisering, rollbaserad åtkomstkontroll och databasdriven konfliktdetektering. Fullt containeriserat och testat med enhets- och integrationstester.",
+        "highlights": [
+          "Affärslogik för bokningskonflikter med exclusion constraint på databasnivå",
+          "JWT-baserad tillståndslös autentisering med rollbaserad åtkomstkontroll",
+          "Databasschema med 4 tabeller, foreign key-constraints och Flyway-migrationer",
+          "Enhets- och integrationstester med Testcontainers mot riktig PostgreSQL",
+          "CI/CD-pipeline med GitHub Actions"
+        ],
+        "architectureDecisions": {
+          "design": "Skiktad arkitektur (Controller → Service → Repository) med tydligt ansvar per lager. Global @RestControllerAdvice ger konsekventa felsvar.",
+          "database": "PostgreSQL med fyra tabeller. Exclusion constraint förhindrar överlappande bokningar på databasnivå. Flyway hanterar schemamigrationer.",
+          "scalability": "Tillståndslös JWT-lösning utan serversidessessioner. HikariCP connection pooling för samtidig databasåtkomst.",
+          "tradeoffs": "JWT framför sessionsbaserad autentisering för tillståndslöshet — accepterade att token-revokering kräver ytterligare infrastruktur. PostgreSQL framför H2 för produktionslikhet, med Docker Compose för lokal utveckling."
+        },
+        "technologies": ["Java 17", "Spring Boot 3", "PostgreSQL", "Spring Security", "JWT", "Spring Data JPA", "Flyway", "JUnit 5", "Mockito", "Testcontainers", "Docker", "GitHub Actions"],
+        "type": "Eget projekt",
+        "link": "",
+        "githubLink": "https://github.com/example/booking-api",
+        "featured": true
+      },
+      {
+        "emoji": "🐟",
+        "title": "Fiskeklubbens Webbplats",
+        "problem": "Fiskeklubben hade ingen digital närvaro — medlemmar förlitade sig på mun-till-mun och nya medlemmar kunde inte hitta klubben online.",
+        "solution": "Byggde och driftsatte klubbens officiella webbplats. Hanterade hela livscykeln från kravinsamling till driftsättning. Produktionssystem med riktiga användare.",
+        "highlights": [
+          "Levererade produktionssystem för en riktig organisation",
+          "Hanterade hela projektlivscykeln: krav, design, utveckling, driftsättning",
+          "Responsiv design och SEO-optimering",
+          "Driftsatt och underhållen på Netlify"
+        ],
+        "architectureDecisions": {
+          "design": "Statisk webbplatsarkitektur för maximal tillförlitlighet och noll underhållskostnad.",
+          "database": "Inget databasberoende — innehåll hanteras genom statiska filer för att minimera driftkomplexitet.",
+          "scalability": "Statisk hosting via CDN hanterar alla realistiska trafikökningar.",
+          "tradeoffs": "Prioriterade enkelhet framför dynamiska funktioner. CMS hade möjliggjort redigering av icke-tekniska personer men lade till omotiverad komplexitet."
+        },
+        "technologies": ["React", "JavaScript", "HTML/CSS", "Tailwind CSS", "Netlify"],
+        "type": "Produktionssystem",
+        "link": "https://example-fishing-club.netlify.app",
+        "githubLink": "https://github.com/example/fishing-club-website",
+        "featured": false
+      },
+      {
+        "emoji": "🥋",
+        "title": "Järnvilja",
+        "problem": "Skoluppgift att bygga en fullstack-applikation som demonstrerar end-to-end-utveckling från databasdesign till användargränssnitt.",
+        "solution": "Fullstack-webbapplikation med kampsportstema. Backend-API med skiktad arkitektur, relationsdatabas och serverrenderat frontend via Thymeleaf.",
+        "highlights": [
+          "RESTful API med tydlig endpoint-struktur och CRUD-operationer",
+          "Normaliserad relationsdatabasdesign med foreign key-constraints",
+          "Driftsatt med miljöbaserad konfiguration",
+          "Tydlig separation av ansvar mellan presentation och affärslogik"
+        ],
+        "architectureDecisions": {
+          "design": "Skiktad arkitektur som separerar HTTP-hantering, affärslogik och dataåtkomst. Backend exponerar ett REST API som kan betjäna valfri klient.",
+          "database": "Normaliserade tabeller med foreign key-constraints för referensintegritet på databasnivå.",
+          "scalability": "Tillståndslös API-design möjliggör horisontell skalning.",
+          "tradeoffs": "Monolitisk driftsättning för enkelhet givet projektets omfattning."
+        },
+        "technologies": ["Java", "Spring Boot", "PostgreSQL", "Thymeleaf", "HTML/CSS"],
+        "type": "Skolprojekt",
+        "link": "/projects/jarnvilja",
+        "linkLabel": "Starta demo",
+        "githubLink": "https://github.com/example/jarnvilja",
+        "featured": true
+      },
+      {
+        "emoji": "🌤️",
+        "title": "Väderappen",
+        "problem": "Behövde demonstrera förmågan att konsumera externa REST API:er och hantera asynkrona dataflöden.",
+        "solution": "Väderapplikation som integrerar med OpenWeatherMap API. Fokus på rena API-integrationsmönster och strukturerad felhantering.",
+        "highlights": [
+          "REST API-konsumtion med strukturerad felhantering och laddningstillstånd",
+          "Asynkron JavaScript med async/await-mönster",
+          "Datatransformation från komplexa API-svar till rena UI-komponenter"
+        ],
+        "architectureDecisions": {
+          "design": "API-kommunikation separerad till en dedikerad tjänstemodul, avskild från UI-komponenter.",
+          "database": "Ingen databas — medvetet tillståndslös, hämtar färsk data vid varje förfrågan.",
+          "scalability": "Klientsideapplikation. En produktionsversion skulle dirigera anrop genom en backend-proxy.",
+          "tradeoffs": "API-anrop direkt från webbläsaren för enkelhet — exponerar API-nyckel klientsidigt. Bättre mönster tillämpat i BookingAPI."
+        },
+        "technologies": ["JavaScript", "HTML", "CSS", "OpenWeatherMap API"],
+        "type": "Skolprojekt",
+        "link": "",
+        "githubLink": "https://github.com/example/weather-app",
+        "featured": false
+      },
+      {
+        "emoji": "🤖",
+        "title": "AI Chatbot",
+        "problem": "Ville utforska integration av stora språkmodeller i applikationer och hur prompt engineering påverkar svarskvaliteten.",
+        "solution": "Chatbot som integrerar med OpenAI:s API. Hanterar konversationstillstånd, prompt-mallar och strukturerad felhantering.",
+        "highlights": [
+          "Integration med LLM-API via HTTP-klient med felhantering",
+          "Konversationstillståndshantering med kontextbevarande över flera utbyten",
+          "API-nyckelsäkerhet via miljövariabler"
+        ],
+        "architectureDecisions": {
+          "design": "Tydlig separation mellan konversationshanterare, API-klient och prompt-mallar. Enkelt att byta LLM-leverantör.",
+          "database": "Konversationshistorik i minnet under sessioner.",
+          "scalability": "Enanvändardesign. Produktionsversion skulle kräva meddelandekö och hastighetsbegränsning.",
+          "tradeoffs": "Synkrona API-anrop för enkelhet framför strömmande svar."
+        },
+        "technologies": ["Python", "OpenAI API"],
+        "type": "Hobby",
+        "link": "",
+        "githubLink": "https://github.com/example/ai-chatbot",
+        "featured": false
+      }
+    ]
+  },
+  "contact": {
+    "title": "Kontakt",
+    "description": "Tar examen i maj 2026 och söker aktivt min första roll som backend- eller systemutvecklare. Öppen för praktik, juniorroller och samarbeten — tveka inte att höra av dig.",
+    "email": "robert.rizzo@example.com",
+    "phone": "+46 70 123 4567",
+    "linkedin": "linkedin.com/in/robert-rizzo-example",
+    "github": "github.com/robert-rizzo-example",
+    "emailLabel": "E-post",
+    "phoneLabel": "Telefon",
+    "linkedinLabel": "LinkedIn",
+    "githubLabel": "GitHub"
+  },
+  "demo": {
+    "backToPortfolio": "Tillbaka till portfolio",
+    "loading": "Laddar demo..."
+  },
+  "footer": {
+    "tagline": "Byggd med React, Tailwind CSS & i18next",
+    "rights": "Alla rättigheter förbehållna."
+  }
+}
