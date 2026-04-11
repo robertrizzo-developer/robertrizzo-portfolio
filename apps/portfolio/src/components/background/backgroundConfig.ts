@@ -69,6 +69,16 @@ export type WaveConfig = {
   surfaceVibrance: number;
 };
 
+export type DottedSurfaceSettings = {
+  separation: number;
+  amountX: number;
+  amountY: number;
+  speed: number;
+  height: number;
+  colorLight: string;
+  colorDark: string;
+};
+
 export type BackgroundConfig = {
   enableDottedSurface: boolean;
   enableParallax: boolean;
@@ -104,6 +114,8 @@ export type BackgroundConfig = {
   depthStrength: number;
 
   wave: WaveConfig;
+
+  dottedSurface: DottedSurfaceSettings;
 };
 
 export const DEFAULT_WAVE_CONFIG: WaveConfig = {
@@ -134,9 +146,9 @@ export const DEFAULT_WAVE_CONFIG: WaveConfig = {
   pointSize: 2.35,
   pointDisplacementBoost: 14.0,
 
-  backdropTop: '#070a14',
-  backdropMid: '#0a0f22',
-  backdropBottom: '#0d1228',
+  backdropTop: '#000000',
+  backdropMid: '#050508',
+  backdropBottom: '#0c0c12',
 
   dotOpacityScaleWhenWave: 0.07,
 
@@ -163,9 +175,9 @@ export const DEFAULT_BACKGROUND_CONFIG: BackgroundConfig = {
   dotPatternType: 'grid',
   dotBlendMode: 'multiply',
 
-  backgroundTopColor: '#ffffff',
-  backgroundMidColor: '#f4f7ff',
-  backgroundBottomColor: '#eef2f7',
+  backgroundTopColor: '#000000',
+  backgroundMidColor: '#06060a',
+  backgroundBottomColor: '#0e0e14',
 
   glowStrength: 0.2,
   glowColors: ['rgba(56, 189, 248, 0.35)', 'rgba(99, 102, 241, 0.22)'],
@@ -195,15 +207,26 @@ export const DEFAULT_BACKGROUND_CONFIG: BackgroundConfig = {
   depthStrength: 1.15,
 
   wave: { ...DEFAULT_WAVE_CONFIG },
+
+  dottedSurface: {
+    separation: 64,
+    amountX: 52,
+    amountY: 36,
+    speed: 0.065,
+    height: 52,
+    colorLight: '#0f172a',
+    colorDark: '#f8fafc',
+  },
 };
 
 export const BACKGROUND_PRESETS: Record<string, Partial<BackgroundConfig>> = {
   home: {
+    enableDottedSurface: true,
     dotOpacity: 0.38,
     blobIntensity: 1.1,
     depthStrength: 1.25,
     glowStrength: 0.26,
-    backgroundMidColor: '#eef4ff',
+    backgroundMidColor: '#08080c',
 
     wave: {
       ...DEFAULT_WAVE_CONFIG,
@@ -218,12 +241,13 @@ export const BACKGROUND_PRESETS: Record<string, Partial<BackgroundConfig>> = {
   },
 
   projects: {
+    enableDottedSurface: true,
     dotOpacity: 0.22,
     blobIntensity: 0.75,
     depthStrength: 0.7,
     enableSectionDepth: false,
     glowStrength: 0.14,
-    backgroundMidColor: '#f7f8fc',
+    backgroundMidColor: '#07070b',
 
     wave: {
       ...DEFAULT_WAVE_CONFIG,
@@ -239,11 +263,12 @@ export const BACKGROUND_PRESETS: Record<string, Partial<BackgroundConfig>> = {
   },
 
   about: {
+    enableDottedSurface: true,
     dotOpacity: 0.25,
     blobIntensity: 0.65,
     depthStrength: 0.6,
     glowStrength: 0.12,
-    backgroundBottomColor: '#eceff5',
+    backgroundBottomColor: '#101018',
 
     wave: {
       ...DEFAULT_WAVE_CONFIG,
@@ -263,9 +288,14 @@ export function mergeBackgroundConfig(
     ? { ...DEFAULT_BACKGROUND_CONFIG.wave, ...partial.wave }
     : { ...DEFAULT_BACKGROUND_CONFIG.wave };
 
+  const dottedSurface: DottedSurfaceSettings = partial.dottedSurface
+    ? { ...DEFAULT_BACKGROUND_CONFIG.dottedSurface, ...partial.dottedSurface }
+    : { ...DEFAULT_BACKGROUND_CONFIG.dottedSurface };
+
   return {
     ...DEFAULT_BACKGROUND_CONFIG,
     ...partial,
     wave,
+    dottedSurface,
   };
 }

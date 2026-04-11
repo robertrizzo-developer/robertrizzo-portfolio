@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+
 import MainLayout from './layouts/MainLayout';
 import HomePage from './pages/HomePage';
 import ProjectsListPage from './pages/ProjectsListPage';
@@ -13,7 +14,6 @@ function App() {
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/projects" element={<ProjectsListPage />} />
-        {/* Static segment before :slug so /projects/jarnvilja is not handled as a case study */}
         <Route path="/projects/jarnvilja" element={<JarnviljaDemo />} />
         <Route path="/projects/:slug" element={<ProjectDetailPage />} />
         <Route path="/contact" element={<ContactPage />} />

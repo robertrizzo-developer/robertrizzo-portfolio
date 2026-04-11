@@ -1,7 +1,10 @@
 {
   "name": "portfolio-monorepo",
   "private": true,
-  "workspaces": ["apps/portfolio", "apps/jarnvilja/frontend"],
+  "workspaces": [
+    "apps/portfolio",
+    "apps/jarnvilja/frontend"
+  ],
   "scripts": {
     "dev": "concurrently -n portfolio,jarnvilja-fe,jarnvilja-be -c blue,cyan,magenta \"npm run dev:portfolio\" \"npm run dev:jarnvilja-frontend\" \"npm run dev:jarnvilja-backend\"",
     "dev:portfolio": "npm run dev -w apps/portfolio",
@@ -14,5 +17,8 @@
   },
   "devDependencies": {
     "concurrently": "^9.2.1"
+  },
+  "dependencies": {
+    "framer-motion": "^12.38.0"
   }
 }

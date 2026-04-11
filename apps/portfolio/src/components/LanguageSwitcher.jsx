@@ -8,8 +8,7 @@ function LanguageSwitcher() {
   };
 
   return (
-    <div className="flex items-center gap-1 rounded-full bg-neutral-100 p-1 text-sm">
-      
+    <div className="flex items-center gap-1 rounded-full bg-neutral-800 p-1 text-sm">
       <button
         onClick={() => switchLanguage('sv')}
         aria-label="Svenska"
@@ -17,7 +16,7 @@ function LanguageSwitcher() {
           ${
             i18n.language === 'sv'
               ? 'bg-white text-black shadow-sm'
-              : 'text-neutral-500 hover:text-black'
+              : 'text-neutral-400 hover:text-white'
           }`}
       >
         SV
@@ -30,7 +29,7 @@ function LanguageSwitcher() {
           ${
             i18n.language === 'en'
               ? 'bg-white text-black shadow-sm'
-              : 'text-neutral-500 hover:text-black'
+              : 'text-neutral-400 hover:text-white'
           }`}
       >
         EN

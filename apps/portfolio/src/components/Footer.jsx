@@ -4,35 +4,46 @@ function Footer() {
   const { t } = useTranslation();
 
   return (
-    <footer className="relative z-10 border-t border-neutral-200 mt-20 bg-neutral-50/80">
-      <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-10 py-12 flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-neutral-500">
-        <div className="text-center md:text-left">
-          <span className="text-neutral-800 font-medium">Robert Rizzo</span>
-          <span className="mx-2">|</span>
-          <span>{t('footer.tagline')}</span>
+    <footer className="relative z-10 mt-24 border-t border-neutral-800/60">
+      <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-10 py-10 flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-neutral-500">
+        
+        {/* LEFT */}
+        <div className="flex items-center gap-3 text-center md:text-left">
+          <span className="text-neutral-200 font-medium tracking-tight">
+            Robert Rizzo
+          </span>
+          <span className="text-neutral-700">•</span>
+          <span className="text-neutral-500">
+            {t('footer.tagline')}
+          </span>
         </div>
-        <div className="flex items-center gap-4">
+
+        {/* LINKS */}
+        <div className="flex items-center gap-6">
           <a
             href={`https://${t('contact.github')}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-neutral-900 transition-colors"
+            className="text-neutral-500 hover:text-neutral-100 transition-colors duration-200"
             aria-label="GitHub"
           >
             GitHub
           </a>
+
           <a
             href={`https://${t('contact.linkedin')}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-neutral-900 transition-colors"
+            className="text-neutral-500 hover:text-neutral-100 transition-colors duration-200"
             aria-label="LinkedIn"
           >
             LinkedIn
           </a>
         </div>
-        <div className="text-center md:text-right">
-          &copy; {new Date().getFullYear()} Robert Rizzo. {t('footer.rights')}
+
+        {/* RIGHT */}
+        <div className="text-center md:text-right text-neutral-600">
+          © {new Date().getFullYear()} Robert Rizzo
         </div>
       </div>
     </footer>

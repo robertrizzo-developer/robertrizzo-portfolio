@@ -4,15 +4,15 @@ import { slugByIndex } from '../data/projectRoutes';
 import { getProjectCoverImage } from '../data/featuredProjects';
 
 const TYPE_COLORS = {
-  Skolprojekt: 'bg-amber-50 text-amber-900',
-  'School Project': 'bg-amber-50 text-amber-900',
-  Volontär: 'bg-emerald-50 text-emerald-900',
-  Volunteer: 'bg-emerald-50 text-emerald-900',
-  'Produktionssystem': 'bg-teal-50 text-teal-900',
-  'Production System': 'bg-teal-50 text-teal-900',
-  Hobby: 'bg-purple-50 text-purple-900',
-  'Eget projekt': 'bg-blue-50 text-blue-900',
-  'Personal Project': 'bg-blue-50 text-blue-900',
+  Skolprojekt: 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
+  'School Project': 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
+  Volontär: 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
+  Volunteer: 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
+  'Produktionssystem': 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
+  'Production System': 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
+  Hobby: 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
+  'Eget projekt': 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
+  'Personal Project': 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
 };
 
 function ProjectCardLink({ project, index, slug: slugProp }) {
@@ -22,48 +22,77 @@ function ProjectCardLink({ project, index, slug: slugProp }) {
 
   const coverSrc = getProjectCoverImage(slug);
   const summary = project.solution || project.description || '';
-  const badgeClass = TYPE_COLORS[project.type] || 'bg-neutral-100 text-neutral-700';
   const techChips = (project.technologies || []).slice(0, 2);
 
   return (
     <Link
       to={`/projects/${slug}`}
-      className="group block bg-white border border-neutral-200 rounded-xl shadow-sm overflow-hidden transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+      className="
+        group block overflow-hidden rounded-2xl
+        border border-neutral-800/40
+        bg-neutral-950/40
+        backdrop-blur-md
+        transition-all duration-300 ease-out
+        hover:-translate-y-1 hover:border-neutral-700/60
+        hover:bg-neutral-950/60
+      "
       aria-label={`${project.title} — ${t('projects.viewDetails')}`}
     >
-      <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-100">
+      {/* IMAGE */}
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-900">
         {coverSrc ? (
           <img
             src={coverSrc}
             alt=""
-            className="h-full w-full object-cover transition-transform duration-200 ease-out group-hover:scale-[1.02]"
+            className="
+              h-full w-full object-cover
+              transition-transform duration-500 ease-out
+              group-hover:scale-[1.03]
+              opacity-90 group-hover:opacity-100
+            "
           />
         ) : (
-          <div className="h-full w-full bg-neutral-100" aria-hidden />
+          <div className="h-full w-full bg-neutral-900" aria-hidden />
         )}
       </div>
-      <div className="p-6 md:p-7">
-        <div className="flex items-start justify-between gap-2 mb-3">
-          <div className="flex items-center gap-2 min-w-0">
-            <span className="text-2xl shrink-0" aria-hidden>
-              {project.emoji}
-            </span>
-            <h3 className="text-lg md:text-xl font-bold text-neutral-900 group-hover:text-blue-800 transition-colors line-clamp-2">
-              {project.title}
-            </h3>
-          </div>
+
+      {/* CONTENT */}
+      <div className="p-5 md:p-6">
+        <div className="flex items-start gap-3 mb-3">
+          <span className="text-xl opacity-80" aria-hidden>
+            {project.emoji}
+          </span>
+
+          <h3 className="
+            text-base md:text-lg font-medium text-neutral-100
+            tracking-tight leading-snug
+            group-hover:text-white transition-colors
+          ">
+            {project.title}
+          </h3>
         </div>
-        <p className="text-neutral-600 text-sm leading-relaxed line-clamp-2 mb-4">{summary}</p>
+
+        <p className="text-sm text-neutral-400 leading-relaxed line-clamp-2 mb-4">
+          {summary}
+        </p>
+
+        {/* BADGES */}
         <div className="flex flex-wrap gap-2">
           {project.type ? (
-            <span className={`text-xs font-semibold rounded-full px-2.5 py-0.5 ${badgeClass}`}>
+            <span
+              className={`text-xs px-2.5 py-1 rounded-full ${TYPE_COLORS[project.type]}`}
+            >
               {project.type}
             </span>
           ) : (
             techChips.map((tech) => (
               <span
                 key={tech}
-                className="text-xs bg-neutral-100 text-neutral-700 rounded-full px-2.5 py-0.5 border border-neutral-200 font-medium"
+                className="
+                  text-xs px-2.5 py-1 rounded-full
+                  bg-neutral-900/40 text-neutral-400
+                  border border-neutral-800/40
+                "
               >
                 {tech}
               </span>
