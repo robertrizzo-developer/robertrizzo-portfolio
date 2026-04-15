@@ -122,10 +122,10 @@ function ContactPage() {
   return (
     <Section className="!pt-4">
       <div className="mx-auto max-w-2xl text-center">
-        <h1 className="text-3xl font-semibold tracking-tight text-neutral-50 md:text-4xl">
+        <h1 className="text-3xl font-semibold tracking-tight text-white md:text-4xl">
           {t('contact.title')}
         </h1>
-        <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-neutral-400 md:text-lg">
+        <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/85 md:text-lg">
           {t('contact.description')}
         </p>
       </div>
@@ -144,28 +144,28 @@ function ContactPage() {
                   className="group flex flex-col gap-3 rounded-xl px-4 py-4 transition duration-200 hover:bg-white/[0.05] active:scale-[0.99] sm:flex-row sm:items-center sm:gap-4 sm:py-5 sm:pl-5 sm:pr-4 md:px-6"
                 >
                   <div className="flex shrink-0 items-center gap-3 sm:w-[8.5rem] md:w-36">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.06] text-neutral-300 shadow-inner transition group-hover:border-white/20 group-hover:bg-white/[0.1] group-hover:text-neutral-100">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.06] text-white/90 shadow-inner transition group-hover:border-white/20 group-hover:bg-white/[0.1] group-hover:text-white">
                       <Icon className="h-5 w-5" />
                     </span>
-                    <span className="text-xs font-semibold uppercase tracking-wider text-neutral-500 sm:hidden">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-white/70 sm:hidden">
                       {t(labelKey)}
                     </span>
                   </div>
 
                   <div className="min-w-0 flex-1 text-left">
-                    <span className="mb-1 hidden text-xs font-semibold uppercase tracking-wider text-neutral-500 sm:block">
+                    <span className="mb-1 hidden text-xs font-semibold uppercase tracking-wider text-white/70 sm:block">
                       {t(labelKey)}
                     </span>
-                    <span className="block break-words text-sm font-medium text-neutral-100 transition group-hover:text-white md:text-base">
+                    <span className="block break-words text-sm font-medium text-white transition group-hover:text-white md:text-base">
                       {value}
                     </span>
                   </div>
 
-                  <span className="flex shrink-0 items-center justify-end text-neutral-600 transition group-hover:translate-x-0.5 group-hover:text-neutral-300">
+                  <span className="flex shrink-0 items-center justify-end text-white/60 transition group-hover:translate-x-0.5 group-hover:text-white/90">
                     {external ? (
                       <IconArrowOut className="h-4 w-4 sm:h-5 sm:w-5" />
                     ) : (
-                      <span className="text-xs font-medium text-neutral-500 group-hover:text-neutral-300">
+                      <span className="text-xs font-medium text-white/70 group-hover:text-white">
                         →
                       </span>
                     )}

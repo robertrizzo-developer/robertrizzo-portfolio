@@ -1,39 +1,39 @@
-import { useTranslation } from 'react-i18next';
+const SOCIAL = {
+  github: 'https://github.com/robertrizzo-developer',
+  linkedin: 'https://www.linkedin.com/in/robert-rizzo-8071b128b/',
+} as const;
 
 function Footer() {
-  const { t } = useTranslation();
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="relative z-10 mt-auto border-t border-neutral-800/60">
-      <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-5 px-6 py-7 text-sm text-neutral-500 sm:px-8 md:gap-8 md:px-10 md:py-9 lg:flex-row lg:px-12 lg:py-10">
-        <div className="flex items-center gap-3 text-center lg:text-left">
-        </div>
-
-        <div className="flex items-center gap-6">
+    <footer className="relative z-10 mt-auto border-t border-neutral-800/40">
+      <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-x-5 gap-y-1.5 px-4 py-3 sm:justify-between sm:gap-x-6 sm:px-6 sm:py-3.5 md:px-10 lg:px-12">
+        <nav
+          className="flex items-center gap-4 text-xs font-medium text-white/80 sm:gap-5"
+          aria-label="Social links"
+        >
           <a
-            href={`https://${t('github.com/robertrizzo-developer')}`}
+            href={SOCIAL.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-neutral-500 hover:text-neutral-100 transition-colors duration-200"
-            aria-label="GitHub"
+            className="transition-colors hover:text-white"
           >
-            GH
+            GitHub
           </a>
-
           <a
-            href={`https://${t('linkedin.com/in/robert-rizzo-8071b128b/')}`}
+            href={SOCIAL.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-neutral-500 hover:text-neutral-100 transition-colors duration-200"
-            aria-label="LinkedIn"
+            className="transition-colors hover:text-white"
           >
-            LI
+            LinkedIn
           </a>
-        </div>
+        </nav>
 
-        <div className="text-center lg:text-right text-neutral-600">
-          © {new Date().getFullYear()} Robert Rizzo
-        </div>
+        <p className="w-full text-center text-[11px] leading-tight text-white/65 sm:w-auto sm:text-xs">
+          © {year} Robert Rizzo
+        </p>
       </div>
     </footer>
   );

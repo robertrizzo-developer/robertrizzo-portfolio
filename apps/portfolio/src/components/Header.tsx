@@ -14,7 +14,7 @@ const NAV = [
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `relative text-sm tracking-wide transition-all duration-300
-   ${isActive ? 'text-white' : 'text-neutral-400 hover:text-white'}
+   ${isActive ? 'text-white' : 'text-white/75 hover:text-white'}
    after:content-[''] after:absolute after:left-0 after:-bottom-1
    after:h-px after:w-0 after:bg-white/70
    after:transition-all after:duration-300
@@ -89,7 +89,7 @@ function Header() {
           transition-[background-color,backdrop-filter,box-shadow] duration-300
           ${
             scrolled
-              ? 'bg-neutral-950/92 backdrop-blur-md sm:backdrop-blur-lg lg:backdrop-blur-xl shadow-[0_1px_0_0_rgb(23_23_23)]'
+              ? 'bg-neutral-990/32 backdrop-blur-md sm:backdrop-blur-lg lg:backdrop-blur-xl shadow-[0_1px_0_0_rgb(23_23_23)]'
               : 'bg-transparent'
           }
         `}
@@ -120,7 +120,7 @@ function Header() {
               href="/cv.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:block text-sm text-neutral-500 hover:text-white transition-colors"
+              className="hidden sm:block text-sm text-white/75 hover:text-white transition-colors"
             >
               CV
             </a>
@@ -136,7 +136,7 @@ function Header() {
             {/* Menu: phone + tablet */}
             <button
               onClick={() => setMenuOpen(true)}
-              className="p-2 text-neutral-400 transition-colors hover:text-white lg:hidden"
+              className="p-2 text-white/75 transition-colors hover:text-white lg:hidden"
               aria-label="Open menu"
             >
               <svg
@@ -183,7 +183,7 @@ function Header() {
 
             <button
               onClick={() => setMenuOpen(false)}
-              className="p-2 text-neutral-400 hover:text-white"
+              className="p-2 text-white/75 hover:text-white"
             >
               ✕
             </button>
@@ -196,7 +196,7 @@ function Header() {
                 to={item.to}
                 end={item.to === '/'}
                 onClick={() => setMenuOpen(false)}
-                className="text-lg text-neutral-400 hover:text-white transition-colors tracking-wide"
+                className="text-lg text-white/75 hover:text-white transition-colors tracking-wide"
               >
                 {t(item.key)}
               </NavLink>
@@ -205,7 +205,7 @@ function Header() {
             {/* CV */}
             <a
               href="/cv.pdf"
-              className="mt-8 text-sm text-neutral-500 hover:text-white transition-colors"
+              className="mt-8 text-sm text-white/70 hover:text-white transition-colors"
               onClick={() => setMenuOpen(false)}
             >
               CV

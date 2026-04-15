@@ -5,15 +5,15 @@ import { getProjectCoverImage } from '../data/featuredProjects';
 import type { ProjectItem } from '../types/project';
 
 const TYPE_COLORS: Record<string, string> = {
-  Skolprojekt: 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
-  'School Project': 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
-  Volontär: 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
-  Volunteer: 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
-  Produktionssystem: 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
-  'Production System': 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
-  Hobby: 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
-  'Eget projekt': 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
-  'Personal Project': 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
+  Skolprojekt: 'bg-white/10 text-white border border-white/20',
+  'School Project': 'bg-white/10 text-white border border-white/20',
+  Volontär: 'bg-emerald-500/15 text-white border border-emerald-400/30',
+  Volunteer: 'bg-emerald-500/15 text-white border border-emerald-400/30',
+  Produktionssystem: 'bg-teal-500/15 text-white border border-teal-400/30',
+  'Production System': 'bg-teal-500/15 text-white border border-teal-400/30',
+  Hobby: 'bg-violet-500/15 text-white border border-violet-400/30',
+  'Eget projekt': 'bg-sky-500/15 text-white border border-sky-400/30',
+  'Personal Project': 'bg-sky-500/15 text-white border border-sky-400/30',
 };
 
 type ProjectCardLinkProps = {
@@ -71,7 +71,7 @@ function ProjectCardLink({ project, index, slug: slugProp }: ProjectCardLinkProp
 
           <h3
             className="
-            text-base md:text-lg font-medium text-neutral-100
+            text-base md:text-lg font-medium text-white
             tracking-tight leading-snug
             group-hover:text-white transition-colors
           "
@@ -80,7 +80,7 @@ function ProjectCardLink({ project, index, slug: slugProp }: ProjectCardLinkProp
           </h3>
         </div>
 
-        <p className="text-sm text-neutral-400 leading-relaxed line-clamp-2 mb-4">{summary}</p>
+        <p className="text-sm text-white/80 leading-relaxed line-clamp-2 mb-4">{summary}</p>
 
         <div className="flex flex-wrap gap-2">
           {project.type ? (
@@ -91,7 +91,7 @@ function ProjectCardLink({ project, index, slug: slugProp }: ProjectCardLinkProp
                 key={tech}
                 className="
                   text-xs px-2.5 py-1 rounded-full
-                  bg-neutral-900/40 text-neutral-400
+                  bg-white/10 text-white/85
                   border border-neutral-800/40
                 "
               >

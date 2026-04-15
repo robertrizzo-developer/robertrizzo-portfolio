@@ -87,26 +87,26 @@ function HomePage() {
               <motion.div variants={v.container} initial="hidden" animate="visible">
                 <motion.p
                   variants={v.item}
-                  className="mb-5 text-xs font-medium uppercase tracking-[0.25em] text-neutral-400"
+                  className="mb-5 text-xs font-medium uppercase tracking-[0.25em] text-white/80"
                 >
                   Backend Developer
                 </motion.p>
 
                 <motion.h1
                   variants={v.item}
-                  className="text-4xl font-semibold tracking-tight text-neutral-50 md:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl"
+                  className="text-4xl font-semibold tracking-tight text-white md:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl"
                 >
                   {t('home.name')}
                 </motion.h1>
 
                 <motion.p
                   variants={v.item}
-                  className="mt-6 mx-auto max-w-xl text-lg leading-relaxed text-neutral-300 md:max-w-2xl md:text-xl lg:mx-0"
+                  className="mt-6 mx-auto max-w-xl text-lg leading-relaxed text-white/90 md:max-w-2xl md:text-xl lg:mx-0"
                 >
                   {t('home.subtitle')}
                 </motion.p>
 
-                <motion.p variants={v.item} className="mt-4 text-sm text-neutral-500 md:text-base">
+                <motion.p variants={v.item} className="mt-4 text-sm text-white/75 md:text-base">
                   {t('home.availability')}
                 </motion.p>
 
@@ -128,7 +128,7 @@ function HomePage() {
 
                   <MotionLink
                     to="/about"
-                    className="rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-medium text-neutral-100 backdrop-blur-sm transition hover:border-white/25 hover:bg-white/10 md:px-6 md:py-3 md:text-base"
+                    className="rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-medium text-white backdrop-blur-sm transition hover:border-white/25 hover:bg-white/10 md:px-6 md:py-3 md:text-base"
                     whileTap={ctaTap}
                   >
                     Om mig
@@ -136,7 +136,7 @@ function HomePage() {
 
                   <MotionLink
                     to="/contact"
-                    className="rounded-full px-5 py-2.5 text-sm font-medium text-neutral-400 transition hover:text-neutral-100 md:px-6 md:py-3 md:text-base"
+                    className="rounded-full px-5 py-2.5 text-sm font-medium text-white/80 transition hover:text-white md:px-6 md:py-3 md:text-base"
                     whileTap={ctaTap}
                   >
                     Kontakt
@@ -155,7 +155,7 @@ function HomePage() {
         </div>
       </section>
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-0 pb-24 md:pb-28">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-0 pb-16 md:pb-24">
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-5 md:max-w-3xl md:gap-6 lg:max-w-none lg:grid-cols-3 lg:gap-6">
           {(
             [
@@ -170,8 +170,8 @@ function HomePage() {
             >
               <div className="absolute inset-0 rounded-2xl opacity-0 transition-opacity group-hover:opacity-100 bg-gradient-to-br from-white/[0.06] to-transparent" />
 
-              <p className="text-sm font-medium text-neutral-100">{item.title}</p>
-              <p className="mt-1 text-sm text-neutral-500">{item.desc}</p>
+              <p className="text-sm font-medium text-white">{item.title}</p>
+              <p className="mt-1 text-sm text-white/75">{item.desc}</p>
             </div>
           ))}
         </div>

@@ -5,15 +5,15 @@ import ProjectArchitectureCollapse from '../components/ProjectArchitectureCollap
 import { getProjectBySlug } from '../data/projectRoutes';
 import { getProjectCoverImage } from '../data/featuredProjects';
 const TYPE_COLORS: Record<string, string> = {
-  Skolprojekt: 'bg-amber-50 text-amber-900',
-  'School Project': 'bg-amber-50 text-amber-900',
-  Volontär: 'bg-emerald-50 text-emerald-900',
-  Volunteer: 'bg-emerald-50 text-emerald-900',
-  Produktionssystem: 'bg-teal-50 text-teal-900',
-  'Production System': 'bg-teal-50 text-teal-900',
-  Hobby: 'bg-purple-50 text-purple-900',
-  'Eget projekt': 'bg-blue-50 text-blue-900',
-  'Personal Project': 'bg-blue-50 text-blue-900',
+  Skolprojekt: 'bg-amber-500/15 text-white border border-amber-400/25',
+  'School Project': 'bg-amber-500/15 text-white border border-amber-400/25',
+  Volontär: 'bg-emerald-500/15 text-white border border-emerald-400/30',
+  Volunteer: 'bg-emerald-500/15 text-white border border-emerald-400/30',
+  Produktionssystem: 'bg-teal-500/15 text-white border border-teal-400/30',
+  'Production System': 'bg-teal-500/15 text-white border border-teal-400/30',
+  Hobby: 'bg-violet-500/15 text-white border border-violet-400/30',
+  'Eget projekt': 'bg-sky-500/15 text-white border border-sky-400/30',
+  'Personal Project': 'bg-sky-500/15 text-white border border-sky-400/30',
 };
 
 function ProjectDetailPage() {
@@ -29,8 +29,8 @@ function ProjectDetailPage() {
   const { project } = resolved;
   const heroSrc = getProjectCoverImage(slug);
   const badgeClass = project.type
-    ? TYPE_COLORS[project.type] ?? 'bg-neutral-100 text-neutral-700'
-    : 'bg-neutral-100 text-neutral-700';
+    ? TYPE_COLORS[project.type] ?? 'bg-white/10 text-white border border-white/20'
+    : 'bg-white/10 text-white border border-white/20';
   const linkLabel = project.link ? project.linkLabel || t('projects.viewProject') : null;
 
   return (
@@ -38,7 +38,7 @@ function ProjectDetailPage() {
       <div className="max-w-3xl mx-auto">
         <Link
           to="/projects"
-          className="inline-flex items-center gap-1.5 text-sm text-neutral-600 hover:text-blue-700 transition-colors mb-8"
+          className="inline-flex items-center gap-1.5 text-sm text-white/80 hover:text-white transition-colors mb-8"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -56,7 +56,7 @@ function ProjectDetailPage() {
         {heroSrc ? (
           <Link
             to="/projects"
-            className="group block mb-8 rounded-xl overflow-hidden border border-neutral-200 shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+            className="group block mb-8 rounded-xl overflow-hidden border border-white/15 shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40"
             aria-label={t('projects.backToList')}
           >
             <img
@@ -66,13 +66,13 @@ function ProjectDetailPage() {
             />
           </Link>
         ) : (
-          <div className="rounded-xl bg-neutral-100 aspect-video mb-8 border border-neutral-200" aria-hidden />
+          <div className="rounded-xl bg-white/5 aspect-video mb-8 border border-white/10" aria-hidden />
         )}
 
         <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
           <div className="flex items-center gap-3 min-w-0">
             <span className="text-4xl shrink-0">{project.emoji}</span>
-            <h1 className="text-2xl md:text-3xl font-bold text-neutral-900">{project.title}</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-white">{project.title}</h1>
           </div>
           {project.type && (
             <span className={`text-xs font-semibold rounded-full px-3 py-1 shrink-0 ${badgeClass}`}>
@@ -83,22 +83,22 @@ function ProjectDetailPage() {
 
         {project.problem && (
           <div className="mb-6">
-            <span className="text-xs font-semibold text-neutral-500 uppercase tracking-wider">
+            <span className="text-xs font-semibold text-white/70 uppercase tracking-wider">
               {t('projects.problemLabel')}
             </span>
-            <p className="text-neutral-600 mt-1 leading-relaxed">{project.problem}</p>
+            <p className="text-white/85 mt-1 leading-relaxed">{project.problem}</p>
           </div>
         )}
 
-        <p className="text-neutral-700 leading-relaxed mb-8">
+        <p className="text-white/90 leading-relaxed mb-8">
           {project.solution || project.description}
         </p>
 
         {project.highlights && project.highlights.length > 0 && (
           <ul className="space-y-2 mb-8">
             {project.highlights.map((h, i) => (
-              <li key={i} className="flex items-start gap-2 text-neutral-600">
-                <span className="text-blue-600 mt-0.5 shrink-0">▸</span>
+              <li key={i} className="flex items-start gap-2 text-white/85">
+                <span className="text-white mt-0.5 shrink-0">▸</span>
                 {h}
               </li>
             ))}
@@ -109,7 +109,7 @@ function ProjectDetailPage() {
           {(project.technologies || []).map((tech) => (
             <span
               key={tech}
-              className="bg-neutral-100 text-neutral-800 rounded-full px-3 py-1 text-sm font-medium border border-neutral-200"
+              className="bg-white/10 text-white rounded-full px-3 py-1 text-sm font-medium border border-white/15"
             >
               {tech}
             </span>
@@ -120,7 +120,7 @@ function ProjectDetailPage() {
           {project.link && project.link.startsWith('/') ? (
             <Link
               to={project.link}
-              className="inline-flex items-center gap-1 text-blue-700 hover:text-blue-900 text-sm font-medium transition-colors"
+              className="inline-flex items-center gap-1 text-white/90 hover:text-white text-sm font-medium transition-colors"
             >
               {linkLabel}
               <svg
@@ -139,7 +139,7 @@ function ProjectDetailPage() {
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-blue-700 hover:text-blue-900 text-sm font-medium transition-colors"
+              className="inline-flex items-center gap-1 text-white/90 hover:text-white text-sm font-medium transition-colors"
             >
               {linkLabel}
               <svg
@@ -159,7 +159,7 @@ function ProjectDetailPage() {
               href={project.githubLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-neutral-500 hover:text-neutral-900 text-sm font-medium transition-colors"
+              className="inline-flex items-center gap-1 text-white/75 hover:text-white text-sm font-medium transition-colors"
             >
               GitHub
               <svg

@@ -12,7 +12,7 @@ function Details() {
 
   return (
     <Section id="details">
-      <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-12 text-center">
+      <h2 className="text-3xl md:text-4xl font-bold text-white mb-12 text-center">
         {t('sections.details')}
       </h2>
       <div className="space-y-12">
@@ -21,8 +21,8 @@ function Details() {
           const items = Array.isArray(raw) ? (raw as string[]) : [];
           return (
             <div key={titleKey}>
-              <h3 className="text-xl font-semibold text-blue-700 mb-4">{t(titleKey)}</h3>
-              <ul className="list-disc list-inside space-y-1 text-neutral-700">
+              <h3 className="text-xl font-semibold text-white mb-4">{t(titleKey)}</h3>
+              <ul className="list-disc list-inside space-y-1 text-white/90">
                 {items.map((item, i) => (
                   <li key={i}>{item}</li>
                 ))}

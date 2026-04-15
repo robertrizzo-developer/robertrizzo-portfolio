@@ -17,7 +17,7 @@ function LanguageSwitcher() {
           ${
             i18n.language === 'sv'
               ? 'bg-white text-black shadow-sm'
-              : 'text-neutral-400 hover:text-white'
+              : 'text-white/75 hover:text-white'
           }`}
       >
         SV
@@ -31,7 +31,7 @@ function LanguageSwitcher() {
           ${
             i18n.language === 'en'
               ? 'bg-white text-black shadow-sm'
-              : 'text-neutral-400 hover:text-white'
+              : 'text-white/75 hover:text-white'
           }`}
       >
         EN

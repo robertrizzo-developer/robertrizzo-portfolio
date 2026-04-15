@@ -79,7 +79,7 @@ function MainLayout() {
     <div
       className={`relative min-h-screen font-sans antialiased flex flex-col ${
         backgroundConfig
-          ? 'bg-neutral-950 text-neutral-100'
+          ? 'bg-neutral-950 text-white'
           : 'bg-white text-neutral-900'
       }`}
     >
@@ -90,25 +90,29 @@ function MainLayout() {
       {showSiteChrome && <Header />}
 
       <main
-        className={`relative z-20 flex-1 min-h-0 overflow-x-hidden ${
+        className={`relative z-20 flex min-h-0 flex-1 flex-col overflow-x-hidden ${
           showSiteChrome ? 'pt-20 md:pt-24' : ''
         }`}
       >
         <div
-          className={`carousel-stage relative isolate w-full ${
+          className={`carousel-stage relative isolate flex w-full min-h-0 flex-col ${
             showSiteChrome
-              ? 'min-h-[calc(100dvh-5rem)] sm:min-h-[calc(100dvh-6rem)] md:min-h-[calc(100dvh-8rem)] px-6 sm:px-8 md:px-10 lg:px-12'
-              : 'min-h-dvh'
+              ? 'px-6 sm:px-8 md:px-10 lg:px-12'
+              : 'min-h-dvh flex-1'
           }`}
           style={{
             perspective: '1400px',
             perspectiveOrigin: '50% 45%',
           }}
         >
-          <AnimatePresence mode="sync" initial={false}>
+          {/*
+            In-flow panels (not position:absolute) so main height follows real content.
+            mode="wait" avoids stacking two routes vertically during overlap.
+          */}
+          <AnimatePresence mode="wait" initial={false}>
             <Motion.div
               key={pathname}
-              className="carousel-panel absolute left-0 right-0 top-0 w-full min-h-full origin-center"
+              className="carousel-panel relative w-full min-h-0 origin-center"
               variants={carouselVariants}
               initial="initial"
               animate="animate"

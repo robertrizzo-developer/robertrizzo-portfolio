@@ -17,7 +17,7 @@ function ProjectArchitectureCollapse({ architectureDecisions }: Props) {
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 text-sm font-medium text-blue-700 hover:text-blue-900 transition-colors cursor-pointer"
+        className="flex items-center gap-2 text-sm font-medium text-white/90 hover:text-white transition-colors cursor-pointer"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -36,34 +36,34 @@ function ProjectArchitectureCollapse({ architectureDecisions }: Props) {
         <div className="mt-4 space-y-3 pl-4 border-l-2 border-neutral-200">
           {architectureDecisions.design && (
             <div>
-              <h5 className="text-xs font-semibold text-blue-700 uppercase tracking-wider mb-1">
+              <h5 className="text-xs font-semibold text-white/85 uppercase tracking-wider mb-1">
                 {t('projects.designLabel')}
               </h5>
-              <p className="text-sm text-neutral-600">{architectureDecisions.design}</p>
+              <p className="text-sm text-white/85">{architectureDecisions.design}</p>
             </div>
           )}
           {architectureDecisions.database && (
             <div>
-              <h5 className="text-xs font-semibold text-blue-700 uppercase tracking-wider mb-1">
+              <h5 className="text-xs font-semibold text-white/85 uppercase tracking-wider mb-1">
                 {t('projects.databaseLabel')}
               </h5>
-              <p className="text-sm text-neutral-600">{architectureDecisions.database}</p>
+              <p className="text-sm text-white/85">{architectureDecisions.database}</p>
             </div>
           )}
           {architectureDecisions.scalability && (
             <div>
-              <h5 className="text-xs font-semibold text-blue-700 uppercase tracking-wider mb-1">
+              <h5 className="text-xs font-semibold text-white/85 uppercase tracking-wider mb-1">
                 {t('projects.scalabilityLabel')}
               </h5>
-              <p className="text-sm text-neutral-600">{architectureDecisions.scalability}</p>
+              <p className="text-sm text-white/85">{architectureDecisions.scalability}</p>
             </div>
           )}
           {architectureDecisions.tradeoffs && (
             <div>
-              <h5 className="text-xs font-semibold text-blue-700 uppercase tracking-wider mb-1">
+              <h5 className="text-xs font-semibold text-white/85 uppercase tracking-wider mb-1">
                 {t('projects.tradeoffsLabel')}
               </h5>
-              <p className="text-sm text-neutral-600">{architectureDecisions.tradeoffs}</p>
+              <p className="text-sm text-white/85">{architectureDecisions.tradeoffs}</p>
             </div>
           )}
         </div>

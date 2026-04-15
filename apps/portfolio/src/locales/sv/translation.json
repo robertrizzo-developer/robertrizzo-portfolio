@@ -141,7 +141,6 @@
     "openInNewTab": "Öppna demo i ny flik"
   },
   "footer": {
-    "tagline": "Byggd med React, Tailwind CSS & i18next",
     "rights": "Alla rättigheter förbehållna."
   }
 }
