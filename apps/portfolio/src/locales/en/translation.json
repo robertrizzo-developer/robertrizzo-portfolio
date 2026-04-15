@@ -84,27 +84,28 @@
     "tradeoffsLabel": "Tradeoffs",
     "items": [
       {
-        "emoji": "📦",
-        "title": "BookingAPI",
-        "problem": "No existing booking backend fit the needs of small organizations managing room or event reservations with authentication and conflict detection.",
-        "solution": "REST API for booking management with JWT authentication, role-based access control, and database-driven conflict detection. Fully containerized and tested with unit and integration tests.",
+        "emoji": "🔀",
+        "title": "Refactoring Visualizer",
+        "problem": "No good interactive tool existed to teach service-layer refactoring — showing how a monolithic controller evolves into a layered architecture with clear separation of concerns.",
+        "solution": "Single-page React app that visualizes a Java/Spring refactoring case study with side-by-side before/after code comparison, synchronized layer highlighting, code/pseudocode toggle, and bilingual UI.",
         "highlights": [
-          "Business logic for booking conflicts with database-level exclusion constraint",
-          "JWT-based stateless authentication with role-based access control",
-          "Database schema with 4 tables, foreign key constraints, and Flyway migrations",
-          "Unit and integration tests with Testcontainers against real PostgreSQL",
-          "CI/CD pipeline with GitHub Actions"
+          "Synchronized layer highlighting across Controller, Service, and Mapper roles",
+          "Code vs pseudocode view toggle with aligned segment ordering",
+          "Bilingual i18n support (Swedish and English) for all UI strings",
+          "File tree with labeled case-study vs example badges for honest scope",
+          "Data-driven architecture — segments, pseudocode keys, and highlight roles defined in a single source of truth"
         ],
         "architectureDecisions": {
-          "design": "Layered architecture (Controller → Service → Repository) with clear responsibility per layer. Global @RestControllerAdvice provides consistent error responses.",
-          "database": "PostgreSQL with four tables. Exclusion constraint prevents overlapping bookings at the database level. Flyway manages schema migrations.",
-          "scalability": "Stateless JWT approach with no server-side sessions. HikariCP connection pooling for concurrent database access.",
-          "tradeoffs": "JWT over session-based auth for statelessness — accepted that token revocation requires additional infrastructure. PostgreSQL over H2 for production fidelity, with Docker Compose for local development."
+          "design": "Data-driven segment model: each code file is split into labeled segments with a layer role, so highlighting, dimming, and pseudocode mapping all derive from the same structure.",
+          "database": "No database — fully static client-side content. All code examples and pseudocode live in JS data modules.",
+          "scalability": "Static SPA with no backend; deployable to any CDN or static host after a single vite build.",
+          "tradeoffs": "JavaScript over TypeScript for rapid iteration on a pedagogical tool. Plain CSS over Tailwind to keep the project self-contained without external utility dependencies."
         },
-        "technologies": ["Java 17", "Spring Boot 3", "PostgreSQL", "Spring Security", "JWT", "Spring Data JPA", "Flyway", "JUnit 5", "Mockito", "Testcontainers", "Docker", "GitHub Actions"],
+        "technologies": ["React 19", "Vite", "JavaScript", "JSX", "CSS", "ESLint"],
         "type": "Personal Project",
-        "link": "",
-        "githubLink": "https://github.com/example/booking-api",
+        "link": "/projects/refactoring-visualizer",
+        "linkLabel": "Launch Demo",
+        "githubLink": "",
         "featured": true
       },
       {
@@ -168,7 +169,7 @@
           "design": "API communication separated into a dedicated service module, decoupled from UI components.",
           "database": "No database — intentionally stateless, fetching fresh data on each request.",
           "scalability": "Client-side application. A production version would route calls through a backend proxy.",
-          "tradeoffs": "API calls directly from the browser for simplicity — exposes API key client-side. Better pattern applied in BookingAPI."
+          "tradeoffs": "API calls directly from the browser for simplicity — exposes API key client-side. Better pattern applied in Refactoring Visualizer."
         },
         "technologies": ["JavaScript", "HTML", "CSS", "OpenWeatherMap API"],
         "type": "School Project",

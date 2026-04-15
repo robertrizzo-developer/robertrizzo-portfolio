@@ -18,10 +18,10 @@ Each folder should contain:
 
 ```
 projects/
-├── booking-api/
-│   ├── architecture.png    # Full system architecture diagram
-│   ├── swagger.png         # Screenshot of Swagger UI
-│   └── tests.png           # Screenshot of passing test suite
+├── refactoring-visualizer/
+│   ├── architecture.png    # Architecture / data-flow diagram
+│   ├── screenshot.png      # Browser screenshot of the app
+│   └── cover.svg           # Card cover placeholder
 ├── fishing-club/
 │   ├── screenshot.png      # Browser screenshot of live site
 │   └── architecture.png    # Simple system diagram

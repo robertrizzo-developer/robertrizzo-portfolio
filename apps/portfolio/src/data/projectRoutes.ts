@@ -1,7 +1,7 @@
 import type { ProjectItem } from '../types/project';
 
 export const PROJECT_SLUGS = [
-  'booking-api',
+  'refactoring-visualizer',
   'fishing-club-website',
   'jarnvilja-app',
   'weather-app',

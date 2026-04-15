@@ -7,6 +7,7 @@ import ProjectDetailPage from './pages/ProjectDetailPage';
 import ContactPage from './pages/ContactPage';
 import AboutPage from './pages/AboutPage';
 import JarnviljaDemo from './pages/JarnviljaDemo';
+import RefactoringVisualizerDemo from './pages/RefactoringVisualizerDemo';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/projects" element={<ProjectsListPage />} />
         <Route path="/projects/jarnvilja" element={<JarnviljaDemo />} />
+        <Route path="/projects/refactoring-visualizer" element={<RefactoringVisualizerDemo />} />
         <Route path="/projects/:slug" element={<ProjectDetailPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/about" element={<AboutPage />} />

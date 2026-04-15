@@ -1,0 +1,55 @@
+/* Neutral shell — semantic green/blue/pink only in App.css for code & steps */
+:root {
+  color-scheme: light;
+  --text: #0f172a;
+  --text-muted: #475569;
+  --text-soft: #64748b;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --surface-3: #e2e8f0;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --code-bg: #f8fafc;
+  --code-fg: #0f172a;
+  --focus: #334155;
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+  --shadow-card: 0 4px 20px rgba(15, 23, 42, 0.07);
+  --shadow-hover: 0 8px 28px rgba(15, 23, 42, 0.09);
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+
+  /* Strict: only for code segments, legend dots, step lines, active chip underline */
+  --c-controller: #21db14;
+  --c-service: #1535ea;
+  --c-mapper: #e41e77;
+  --c-neutral: #94a3b8;
+
+  font-family: var(--sans);
+  line-height: 1.55;
+  color: var(--text);
+  background: #fafafa;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100svh;
+}

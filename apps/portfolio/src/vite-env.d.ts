@@ -2,6 +2,7 @@
 
 interface ImportMetaEnv {
   readonly VITE_JARNVILJA_URL?: string;
+  readonly VITE_REFACTORING_VISUALIZER_URL?: string;
 }
 
 interface ImportMeta {

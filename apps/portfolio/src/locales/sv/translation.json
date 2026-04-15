@@ -63,25 +63,27 @@
     "tradeoffsLabel": "Avvägningar",
     "items": [
       {
-        "title": "BookingAPI",
-        "problem": "Bokningssystem med krav på autentisering och konfliktkontroll.",
-        "solution": "REST API för bokningar med JWT och databaskontrollerad logik.",
+        "title": "Refactoring Visualizer",
+        "problem": "Inget interaktivt verktyg fanns för att lära ut service-layer-refaktorering — att gå från en monolitisk controller till en skiktad arkitektur med tydlig ansvarsfördelning.",
+        "solution": "Ensides React-app som visualiserar en Java/Spring-refaktorering med jämförelse sida vid sida, synkroniserad lagermarkering, kod/pseudokod-växling och tvåspråkigt gränssnitt.",
         "highlights": [
-          "JWT autentisering",
-          "Konfliktdetektering i databasen",
-          "PostgreSQL + Flyway",
-          "Testcontainers integrationstester"
+          "Synkroniserad lagermarkering för Controller, Service och Mapper",
+          "Växling mellan kod och pseudokod med matchande segmentordning",
+          "Tvåspråkigt i18n-stöd (svenska och engelska)",
+          "Filträd med märkning för fallstudie kontra exempelfiler",
+          "Datadriven arkitektur — segment, pseudokodnycklar och lagerroller definierade på ett ställe"
         ],
         "architectureDecisions": {
-          "design": "Skiktad arkitektur (Controller → Service → Repository) med tydligt ansvar per lager. Global @RestControllerAdvice ger konsekventa felsvar.",
-          "database": "PostgreSQL med fyra tabeller. Exclusion constraint förhindrar överlappande bokningar på databasnivå. Flyway hanterar schemamigrationer.",
-          "scalability": "Tillståndslös JWT-lösning utan serversidessessioner. HikariCP connection pooling för samtidig databasåtkomst.",
-          "tradeoffs": "JWT framför sessionsbaserad autentisering för tillståndslöshet — accepterade att token-revokering kräver ytterligare infrastruktur. PostgreSQL framför H2 för produktionslikhet, med Docker Compose för lokal utveckling."
+          "design": "Datadriven segmentmodell: varje kodfil delas upp i märkta segment med en lagerroll, så markering, nedtoning och pseudokodmappning utgår från samma struktur.",
+          "database": "Ingen databas — helt statiskt klientinnehåll. Alla kodexempel och pseudokod finns i JS-datamoduler.",
+          "scalability": "Statisk SPA utan backend; kan driftsättas på valfri CDN eller statisk värd efter en enda vite build.",
+          "tradeoffs": "JavaScript framför TypeScript för snabb iteration på ett pedagogiskt verktyg. Ren CSS framför Tailwind för att hålla projektet självständigt utan externa beroenden."
         },
-        "technologies": ["Java 17", "Spring Boot 3", "PostgreSQL", "Spring Security", "JWT", "Spring Data JPA", "Flyway", "JUnit 5", "Mockito", "Testcontainers", "Docker", "GitHub Actions"],
+        "technologies": ["React 19", "Vite", "JavaScript", "JSX", "CSS", "ESLint"],
         "type": "Eget projekt",
-        "link": "",
-        "githubLink": "https://github.com/example/booking-api",
+        "link": "/projects/refactoring-visualizer",
+        "linkLabel": "Starta demo",
+        "githubLink": "",
         "featured": true
       },
       {

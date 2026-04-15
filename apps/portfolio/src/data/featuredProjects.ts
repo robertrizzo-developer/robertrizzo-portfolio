@@ -1,18 +1,18 @@
 import { indexBySlug } from './projectRoutes';
 import type { ProjectItem } from '../types/project';
 
-import bookingCover from '../assets/projects/booking-api/cover.svg';
+import refactoringCover from '../assets/projects/refactoring-visualizer/cover.svg';
 import fishingCover from '../assets/projects/fishing-club/sfkmFrontpage.jpeg';
 import jarnviljaCover from '../assets/projects/jarnvilja/jarnviljaFrontpage.jpeg';
 
 export const FEATURED_PROJECT_SLUGS = [
   'jarnvilja-app',
   'fishing-club-website',
-  'booking-api',
+  'refactoring-visualizer',
 ] as const;
 
 const PROJECT_COVER_IMAGES: Record<string, string> = {
-  'booking-api': bookingCover,
+  'refactoring-visualizer': refactoringCover,
   'fishing-club-website': fishingCover,
   'jarnvilja-app': jarnviljaCover,
 };

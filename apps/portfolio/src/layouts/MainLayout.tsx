@@ -46,34 +46,36 @@ function MainLayout() {
   const location = useLocation();
   const pathname = location.pathname;
 
-  const isJarnviljaDemo = pathname === '/projects/jarnvilja';
+  const isDemoRoute =
+    pathname === '/projects/jarnvilja' ||
+    pathname === '/projects/refactoring-visualizer';
 
   const backgroundConfig = useMemo(() => {
-    if (isJarnviljaDemo) return null;
+    if (isDemoRoute) return null;
     if (pathname === '/') return BACKGROUND_PRESETS.home;
     if (pathname === '/about') return BACKGROUND_PRESETS.about;
     if (pathname.startsWith('/projects') || pathname === '/contact') {
       return BACKGROUND_PRESETS.projects;
     }
     return BACKGROUND_PRESETS.projects;
-  }, [pathname, isJarnviljaDemo]);
+  }, [pathname, isDemoRoute]);
 
-  const showSiteChrome = !isJarnviljaDemo;
+  const showSiteChrome = !isDemoRoute;
 
   /** Match document canvas to route so overscroll never flashes the wrong color (dark vs white demo). */
   useEffect(() => {
     const dark = '#09090b';
     const light = '#ffffff';
-    const bg = isJarnviljaDemo ? light : dark;
+    const bg = isDemoRoute ? light : dark;
     document.documentElement.style.backgroundColor = bg;
     document.body.style.backgroundColor = bg;
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute('content', isJarnviljaDemo ? light : dark);
+    if (meta) meta.setAttribute('content', isDemoRoute ? light : dark);
     return () => {
       document.documentElement.style.backgroundColor = '';
       document.body.style.backgroundColor = '';
     };
-  }, [isJarnviljaDemo]);
+  }, [isDemoRoute]);
 
   return (
     <div
