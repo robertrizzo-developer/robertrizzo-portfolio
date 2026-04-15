@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './LanguageSwitcher';
@@ -21,31 +21,63 @@ const navLinkClass = ({ isActive }: { isActive: boolean }) =>
    hover:after:w-full
    ${isActive ? 'after:w-full' : ''}`;
 
+const SCROLL_GLASS_ON = 14;
+const SCROLL_GLASS_OFF = 4;
+
 function Header() {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const scrollLockYRef = useRef(0);
+  const scrollRafRef = useRef(0);
 
-  // Lock scroll when mobile menu open
+  // Lock scroll when menu open — fixed body + restore scrollY avoids iOS rubber-band jank vs overflow:hidden alone
   useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = 'hidden';
-      return () => {
-        document.body.style.overflow = '';
-      };
-    }
+    if (!menuOpen) return;
+
+    scrollLockYRef.current = window.scrollY;
+    const y = scrollLockYRef.current;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${y}px`;
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.width = '100%';
+    document.documentElement.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.width = '';
+      document.documentElement.style.overflow = '';
+      window.scrollTo(0, scrollLockYRef.current);
+    };
   }, [menuOpen]);
 
-  // Detect scroll → glass effect
+  // Glass header: one update per frame max + hysteresis so we don’t thrash React on every scroll tick
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
+    const onScroll = () => {
+      if (scrollRafRef.current) return;
+      scrollRafRef.current = requestAnimationFrame(() => {
+        scrollRafRef.current = 0;
+        const y = window.scrollY;
+        setScrolled((prev) => {
+          if (prev) return y > SCROLL_GLASS_OFF;
+          return y > SCROLL_GLASS_ON;
+        });
+      });
     };
 
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    return () => window.removeEventListener('scroll', handleScroll);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (scrollRafRef.current) {
+        cancelAnimationFrame(scrollRafRef.current);
+        scrollRafRef.current = 0;
+      }
+    };
   }, []);
 
   return (
@@ -53,26 +85,16 @@ function Header() {
       {/* HEADER */}
       <header
         className={`
-          fixed top-0 left-0 w-full z-50
-          transition-all duration-500
+          fixed top-0 left-0 z-50 w-full overflow-hidden
+          transition-[background-color,backdrop-filter,box-shadow] duration-300
           ${
             scrolled
-              ? 'bg-neutral-950/40 backdrop-blur-xl border-b border-neutral-800/50'
+              ? 'bg-neutral-950/92 backdrop-blur-md sm:backdrop-blur-lg lg:backdrop-blur-xl shadow-[0_1px_0_0_rgb(23_23_23)]'
               : 'bg-transparent'
           }
         `}
       >
-        {/* Gradient edge */}
-        <div
-          className={`
-            pointer-events-none absolute inset-x-0 bottom-0 h-16
-            transition-opacity duration-500
-            ${scrolled ? 'opacity-100' : 'opacity-0'}
-            bg-gradient-to-b from-transparent to-neutral-950/40
-          `}
-        />
-
-        <div className="relative mx-auto flex max-w-5xl items-center justify-between px-6 py-6 sm:px-8 md:px-10 lg:px-12">
+        <div className="relative mx-auto flex max-w-5xl items-center justify-between px-6 py-4 sm:px-8 sm:py-5 md:px-10 md:py-6 lg:px-12">
 
           {/* EMPTY LEFT (space for balance) */}
           <div />

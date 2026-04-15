@@ -4,8 +4,8 @@ function Footer() {
   const { t } = useTranslation();
 
   return (
-    <footer className="relative z-10 mt-24 border-t border-neutral-800/60">
-      <div className="max-w-5xl mx-auto px-6 sm:px-8 md:px-10 lg:px-12 py-10 flex flex-col lg:flex-row items-center justify-between gap-6 md:gap-8 text-sm text-neutral-500">
+    <footer className="relative z-10 mt-auto border-t border-neutral-800/60">
+      <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-5 px-6 py-7 text-sm text-neutral-500 sm:px-8 md:gap-8 md:px-10 md:py-9 lg:flex-row lg:px-12 lg:py-10">
         <div className="flex items-center gap-3 text-center lg:text-left">
         </div>
 

@@ -74,7 +74,7 @@ function HomePage() {
   const v = useHeroMotionVariants();
 
   return (
-    <div className="relative z-10 overflow-hidden">
+    <div className="relative z-10 overflow-x-hidden">
       <section className="relative z-10 w-full px-0 pb-16 pt-6 sm:pt-8 md:pb-20 md:pt-12 lg:pb-20 lg:pt-12">
         <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-8 md:gap-y-12 lg:grid-cols-12 lg:gap-x-12 lg:gap-y-12 xl:gap-x-16">
           <motion.div

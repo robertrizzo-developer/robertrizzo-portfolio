@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion as Motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
@@ -60,6 +60,21 @@ function MainLayout() {
 
   const showSiteChrome = !isJarnviljaDemo;
 
+  /** Match document canvas to route so overscroll never flashes the wrong color (dark vs white demo). */
+  useEffect(() => {
+    const dark = '#09090b';
+    const light = '#ffffff';
+    const bg = isJarnviljaDemo ? light : dark;
+    document.documentElement.style.backgroundColor = bg;
+    document.body.style.backgroundColor = bg;
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', isJarnviljaDemo ? light : dark);
+    return () => {
+      document.documentElement.style.backgroundColor = '';
+      document.body.style.backgroundColor = '';
+    };
+  }, [isJarnviljaDemo]);
+
   return (
     <div
       className={`relative min-h-screen font-sans antialiased flex flex-col ${
@@ -76,13 +91,13 @@ function MainLayout() {
 
       <main
         className={`relative z-20 flex-1 min-h-0 overflow-x-hidden ${
-          showSiteChrome ? 'pt-24' : ''
+          showSiteChrome ? 'pt-20 md:pt-24' : ''
         }`}
       >
         <div
           className={`carousel-stage relative isolate w-full ${
             showSiteChrome
-              ? 'min-h-[calc(100dvh-8rem)] px-6 sm:px-8 md:px-10 lg:px-12'
+              ? 'min-h-[calc(100dvh-5rem)] sm:min-h-[calc(100dvh-6rem)] md:min-h-[calc(100dvh-8rem)] px-6 sm:px-8 md:px-10 lg:px-12'
               : 'min-h-dvh'
           }`}
           style={{
@@ -101,7 +116,6 @@ function MainLayout() {
               style={{
                 transformStyle: 'preserve-3d',
                 transformPerspective: 1400,
-                willChange: 'transform, opacity',
                 backfaceVisibility: 'hidden',
               }}
             >
