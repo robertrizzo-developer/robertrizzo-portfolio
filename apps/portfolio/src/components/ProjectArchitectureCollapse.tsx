@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { ArchitectureDecisions } from '../types/project';
 
-function ProjectArchitectureCollapse({ architectureDecisions }) {
+type Props = {
+  architectureDecisions?: ArchitectureDecisions;
+};
+
+function ProjectArchitectureCollapse({ architectureDecisions }: Props) {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 

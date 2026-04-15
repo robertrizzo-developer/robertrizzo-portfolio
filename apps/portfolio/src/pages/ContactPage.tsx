@@ -29,7 +29,7 @@ function ContactPage() {
       href: `https://${t('contact.github')}`,
       icon: '🐙',
     },
-  ];
+  ] as const;
 
   return (
     <Section className="!pt-4">

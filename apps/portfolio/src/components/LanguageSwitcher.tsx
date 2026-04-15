@@ -3,13 +3,14 @@ import { useTranslation } from 'react-i18next';
 function LanguageSwitcher() {
   const { i18n } = useTranslation();
 
-  const switchLanguage = (lng) => {
-    i18n.changeLanguage(lng);
+  const switchLanguage = (lng: string) => {
+    void i18n.changeLanguage(lng);
   };
 
   return (
-    <div className="flex items-center gap-1 rounded-full bg-neutral-800 p-1 text-sm">
+    <div className="inline-flex items-center gap-1 rounded-full bg-neutral-800/80 backdrop-blur px-1 py-1 text-xs w-fit">
       <button
+        type="button"
         onClick={() => switchLanguage('sv')}
         aria-label="Svenska"
         className={`px-2 py-1 rounded-full transition-all duration-200
@@ -23,6 +24,7 @@ function LanguageSwitcher() {
       </button>
 
       <button
+        type="button"
         onClick={() => switchLanguage('en')}
         aria-label="English"
         className={`px-2 py-1 rounded-full transition-all duration-200
@@ -34,7 +36,6 @@ function LanguageSwitcher() {
       >
         EN
       </button>
-
     </div>
   );
 }

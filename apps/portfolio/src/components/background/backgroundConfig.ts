@@ -77,6 +77,27 @@ export type DottedSurfaceSettings = {
   height: number;
   colorLight: string;
   colorDark: string;
+
+  /**
+   * 0–1 — compresses the grid toward the center in X/Z so dots stay in a mid-screen “safe zone”
+   * (nothing near viewport edges). Lower = tighter, more atmospheric field.
+   */
+  safeZone: number;
+  /**
+   * 0–1 — scales allowed wave motion in Y (and caps displacement); lower = subtler, more contained.
+   * Primary tuning knob for vertical “band” feel.
+   */
+  verticalRange: number;
+  /** Perspective camera distance; larger = farther / smaller on screen (background-only read). */
+  cameraDistance: number;
+  /** Extra world Z applied to the grid (typically negative, pushes field deeper). */
+  gridZOffset: number;
+  /** Multiplier on animation speed (subtle motion). */
+  motionScale: number;
+  /** 0–1 strength of vertex dimming toward the outer safe-zone boundary. */
+  edgeFalloff: number;
+  /** Vertical FOV (degrees); slightly lower = narrower frustum, fewer edge dots. */
+  cameraFov: number;
 };
 
 export type BackgroundConfig = {
@@ -124,7 +145,7 @@ export const DEFAULT_WAVE_CONFIG: WaveConfig = {
   amplitude: 0.11,
   frequencyX: 12.0,
   frequencyY: 14.5,
-  speed: 1.15,
+  speed: 0.35,
   height: 1.0,
 
   diagonalFrequency: 0.6,
@@ -209,20 +230,27 @@ export const DEFAULT_BACKGROUND_CONFIG: BackgroundConfig = {
   wave: { ...DEFAULT_WAVE_CONFIG },
 
   dottedSurface: {
-    separation: 64,
-    amountX: 52,
-    amountY: 36,
-    speed: 0.065,
-    height: 52,
+    separation: 250,
+    amountX: 20,
+    amountY: 76,
+    speed: 0.014,
+    height: 28,
     colorLight: '#0f172a',
     colorDark: '#f8fafc',
+    safeZone: 7.5,
+    verticalRange: 150,
+    cameraDistance: 5600,
+    gridZOffset: -2800,
+    motionScale: 0.5,
+    edgeFalloff: 0.92,
+    cameraFov: 40,
   },
 };
 
 export const BACKGROUND_PRESETS: Record<string, Partial<BackgroundConfig>> = {
   home: {
     enableDottedSurface: true,
-    dotOpacity: 0.38,
+    dotOpacity: 0.5,
     blobIntensity: 1.1,
     depthStrength: 1.25,
     glowStrength: 0.26,
@@ -234,7 +262,7 @@ export const BACKGROUND_PRESETS: Record<string, Partial<BackgroundConfig>> = {
       speed: 1.22,
       frequencyX: 13,
       frequencyY: 15,
-      opacity: 0.95,
+      opacity: 0.5,
       peakEmphasis: 1.65,
       surfaceVibrance: 0.92,
     },
@@ -255,7 +283,7 @@ export const BACKGROUND_PRESETS: Record<string, Partial<BackgroundConfig>> = {
       speed: 0.95,
       frequencyX: 10,
       frequencyY: 12,
-      opacity: 0.82,
+      opacity: 0.5,
       mouseInfluence: 0.14,
       scrollInfluence: 0.38,
       dotOpacityScaleWhenWave: 0.05,
@@ -272,9 +300,9 @@ export const BACKGROUND_PRESETS: Record<string, Partial<BackgroundConfig>> = {
 
     wave: {
       ...DEFAULT_WAVE_CONFIG,
-      amplitude: 0.095,
-      speed: 1.05,
-      opacity: 0.88,
+      amplitude: 0.06,
+      speed: 0.35,
+      opacity: 0.5,
       colorA: 'rgb(110, 210, 245)',
       colorB: 'rgb(160, 130, 255)',
     },

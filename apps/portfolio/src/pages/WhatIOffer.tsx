@@ -8,7 +8,7 @@ const SKILL_CATEGORY_KEYS = [
   'skills.security',
   'skills.devops',
   'skills.architecture',
-];
+] as const;
 
 function WhatIOffer() {
   const { t } = useTranslation();
@@ -26,18 +26,22 @@ function WhatIOffer() {
         {t('about.skillsTitle')}
       </h3>
       <div className="space-y-10 mb-10 max-w-prose mx-auto w-full">
-        {SKILL_CATEGORY_KEYS.map((key) => (
-          <div key={key}>
-            <h4 className="text-sm font-semibold text-blue-700 uppercase tracking-wide mb-2">
-              {t(`${key}.title`)}
-            </h4>
-            <ul className="list-disc list-inside space-y-1 text-neutral-700">
-              {t(`${key}.items`, { returnObjects: true }).map((skill) => (
-                <li key={skill}>{skill}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
+        {SKILL_CATEGORY_KEYS.map((key) => {
+          const raw = t(`${key}.items`, { returnObjects: true });
+          const skills = Array.isArray(raw) ? (raw as string[]) : [];
+          return (
+            <div key={key}>
+              <h4 className="text-sm font-semibold text-blue-700 uppercase tracking-wide mb-2">
+                {t(`${key}.title`)}
+              </h4>
+              <ul className="list-disc list-inside space-y-1 text-neutral-700">
+                {skills.map((skill) => (
+                  <li key={skill}>{skill}</li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
       </div>
     </Section>
   );

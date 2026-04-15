@@ -4,13 +4,12 @@ import Section from '../components/Section';
 import ProjectArchitectureCollapse from '../components/ProjectArchitectureCollapse';
 import { getProjectBySlug } from '../data/projectRoutes';
 import { getProjectCoverImage } from '../data/featuredProjects';
-
-const TYPE_COLORS = {
+const TYPE_COLORS: Record<string, string> = {
   Skolprojekt: 'bg-amber-50 text-amber-900',
   'School Project': 'bg-amber-50 text-amber-900',
   Volontär: 'bg-emerald-50 text-emerald-900',
   Volunteer: 'bg-emerald-50 text-emerald-900',
-  'Produktionssystem': 'bg-teal-50 text-teal-900',
+  Produktionssystem: 'bg-teal-50 text-teal-900',
   'Production System': 'bg-teal-50 text-teal-900',
   Hobby: 'bg-purple-50 text-purple-900',
   'Eget projekt': 'bg-blue-50 text-blue-900',
@@ -18,7 +17,7 @@ const TYPE_COLORS = {
 };
 
 function ProjectDetailPage() {
-  const { slug } = useParams();
+  const { slug } = useParams<{ slug: string }>();
   const { t } = useTranslation();
   const items = t('projects.items', { returnObjects: true });
   const resolved = getProjectBySlug(slug, items);
@@ -29,7 +28,9 @@ function ProjectDetailPage() {
 
   const { project } = resolved;
   const heroSrc = getProjectCoverImage(slug);
-  const badgeClass = TYPE_COLORS[project.type] || 'bg-neutral-100 text-neutral-700';
+  const badgeClass = project.type
+    ? TYPE_COLORS[project.type] ?? 'bg-neutral-100 text-neutral-700'
+    : 'bg-neutral-100 text-neutral-700';
   const linkLabel = project.link ? project.linkLabel || t('projects.viewProject') : null;
 
   return (
@@ -122,7 +123,14 @@ function ProjectDetailPage() {
               className="inline-flex items-center gap-1 text-blue-700 hover:text-blue-900 text-sm font-medium transition-colors"
             >
               {linkLabel}
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </Link>
@@ -134,7 +142,14 @@ function ProjectDetailPage() {
               className="inline-flex items-center gap-1 text-blue-700 hover:text-blue-900 text-sm font-medium transition-colors"
             >
               {linkLabel}
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </a>
@@ -147,8 +162,19 @@ function ProjectDetailPage() {
               className="inline-flex items-center gap-1 text-neutral-500 hover:text-neutral-900 text-sm font-medium transition-colors"
             >
               GitHub
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                />
               </svg>
             </a>
           )}

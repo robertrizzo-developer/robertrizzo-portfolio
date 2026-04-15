@@ -1,17 +1,16 @@
 import { useMemo } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion as Motion } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 
 import BackgroundSystem from '../components/background/BackgroundSystem';
 import { BACKGROUND_PRESETS } from '../components/background/backgroundConfig';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-/** Smooth ease-out — settles without a snap (reads more “product” than “demo”). */
-const CAROUSEL_EASE = [0.22, 1, 0.36, 1];
+const CAROUSEL_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-/** 3D carousel: old panel rotates back/left; new panel comes from right/forward. */
-const carouselVariants = {
+const carouselVariants: Variants = {
   initial: {
     rotateY: 35,
     x: 200,
@@ -69,14 +68,12 @@ function MainLayout() {
           : 'bg-white text-neutral-900'
       }`}
     >
-      {/* Background: stable instance — no route key so WebGL is not torn down on navigation */}
       {backgroundConfig && (
         <BackgroundSystem config={backgroundConfig} className="z-0" />
       )}
 
       {showSiteChrome && <Header />}
 
-      {/* Same 3D carousel for every route; demo page skips site header/footer for full-height embed */}
       <main
         className={`relative z-20 flex-1 min-h-0 overflow-x-hidden ${
           showSiteChrome ? 'pt-24' : ''
@@ -85,7 +82,7 @@ function MainLayout() {
         <div
           className={`carousel-stage relative isolate w-full ${
             showSiteChrome
-              ? 'min-h-[calc(100dvh-8rem)] px-6 sm:px-8 lg:px-10'
+              ? 'min-h-[calc(100dvh-8rem)] px-6 sm:px-8 md:px-10 lg:px-12'
               : 'min-h-dvh'
           }`}
           style={{

@@ -138,7 +138,9 @@ const HeroWaveSurface = memo(function HeroWaveSurface({
   const containerRef = useRef<HTMLDivElement>(null);
 
   const cfgRef = useRef(wave);
-  cfgRef.current = wave;
+  useEffect(() => {
+    cfgRef.current = wave;
+  }, [wave]);
 
   const scrollTarget = useRef(0);
   const sectionTarget = useRef(1);

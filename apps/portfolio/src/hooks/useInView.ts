@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 
-const DEFAULT_OPTIONS = { threshold: 0.1 };
+const DEFAULT_OPTIONS: IntersectionObserverInit = { threshold: 0.1 };
 
-export default function useInView(options = DEFAULT_OPTIONS) {
-  const ref = useRef(null);
+export default function useInView(
+  options: IntersectionObserverInit = DEFAULT_OPTIONS
+): [React.RefObject<HTMLElement | null>, boolean] {
+  const ref = useRef<HTMLElement | null>(null);
   const [isInView, setIsInView] = useState(false);
+
+  const { threshold, root, rootMargin } = options;
 
   useEffect(() => {
     const element = ref.current;
@@ -17,12 +21,12 @@ export default function useInView(options = DEFAULT_OPTIONS) {
           observer.unobserve(element);
         }
       },
-      options
+      { threshold, root, rootMargin }
     );
 
     observer.observe(element);
     return () => observer.disconnect();
-  }, [options]);
+  }, [threshold, root, rootMargin]);
 
   return [ref, isInView];
 }

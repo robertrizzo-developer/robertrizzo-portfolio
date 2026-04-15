@@ -2,20 +2,27 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { slugByIndex } from '../data/projectRoutes';
 import { getProjectCoverImage } from '../data/featuredProjects';
+import type { ProjectItem } from '../types/project';
 
-const TYPE_COLORS = {
+const TYPE_COLORS: Record<string, string> = {
   Skolprojekt: 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
   'School Project': 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
   Volontär: 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
   Volunteer: 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
-  'Produktionssystem': 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
+  Produktionssystem: 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
   'Production System': 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
   Hobby: 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
   'Eget projekt': 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
   'Personal Project': 'bg-neutral-900/5 text-neutral-700 border border-neutral-200',
 };
 
-function ProjectCardLink({ project, index, slug: slugProp }) {
+type ProjectCardLinkProps = {
+  project: ProjectItem;
+  index: number;
+  slug?: string;
+};
+
+function ProjectCardLink({ project, index, slug: slugProp }: ProjectCardLinkProps) {
   const { t } = useTranslation();
   const slug = slugProp ?? slugByIndex(index);
   if (!slug) return null;
@@ -23,6 +30,7 @@ function ProjectCardLink({ project, index, slug: slugProp }) {
   const coverSrc = getProjectCoverImage(slug);
   const summary = project.solution || project.description || '';
   const techChips = (project.technologies || []).slice(0, 2);
+  const typeClass = project.type ? TYPE_COLORS[project.type] ?? TYPE_COLORS['Hobby'] : '';
 
   return (
     <Link
@@ -38,7 +46,6 @@ function ProjectCardLink({ project, index, slug: slugProp }) {
       "
       aria-label={`${project.title} — ${t('projects.viewDetails')}`}
     >
-      {/* IMAGE */}
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-900">
         {coverSrc ? (
           <img
@@ -56,34 +63,28 @@ function ProjectCardLink({ project, index, slug: slugProp }) {
         )}
       </div>
 
-      {/* CONTENT */}
       <div className="p-5 md:p-6">
         <div className="flex items-start gap-3 mb-3">
           <span className="text-xl opacity-80" aria-hidden>
             {project.emoji}
           </span>
 
-          <h3 className="
+          <h3
+            className="
             text-base md:text-lg font-medium text-neutral-100
             tracking-tight leading-snug
             group-hover:text-white transition-colors
-          ">
+          "
+          >
             {project.title}
           </h3>
         </div>
 
-        <p className="text-sm text-neutral-400 leading-relaxed line-clamp-2 mb-4">
-          {summary}
-        </p>
+        <p className="text-sm text-neutral-400 leading-relaxed line-clamp-2 mb-4">{summary}</p>
 
-        {/* BADGES */}
         <div className="flex flex-wrap gap-2">
           {project.type ? (
-            <span
-              className={`text-xs px-2.5 py-1 rounded-full ${TYPE_COLORS[project.type]}`}
-            >
-              {project.type}
-            </span>
+            <span className={`text-xs px-2.5 py-1 rounded-full ${typeClass}`}>{project.type}</span>
           ) : (
             techChips.map((tech) => (
               <span

@@ -12,6 +12,7 @@
     "details": "Detaljer"
   },
   "home": {
+    "profileImageAlt": "Porträtt av Robert Rizzo",
     "name": "Robert Rizzo",
     "tagline": "Javautvecklare | Backend & Systemutveckling",
     "subtitle": "Backend, systemdesign och API-utveckling med Spring Boot.",

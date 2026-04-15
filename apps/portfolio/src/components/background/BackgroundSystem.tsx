@@ -85,7 +85,6 @@ export default function BackgroundSystem({
   const debugCls = debug ? 'outline outline-1 outline-white/20' : '';
 
   if (import.meta.env.DEV && debug) {
-    // eslint-disable-next-line no-console -- intentional debug trace
     console.log('[BackgroundSystem]', {
       enableDottedSurface: cfg.enableDottedSurface,
       enableWave: cfg.wave.enabled,

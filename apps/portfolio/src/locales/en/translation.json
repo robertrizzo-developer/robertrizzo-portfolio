@@ -12,6 +12,7 @@
     "details": "Details"
   },
   "home": {
+    "profileImageAlt": "Portrait of Robert Rizzo",
     "name": "Robert Rizzo",
     "tagline": "Java Developer | Backend & System Development",
     "subtitle": "I build reliable backend systems and REST APIs. Currently studying Java development at IT-Högskolan with a focus on Spring Boot, databases, and software architecture.",
