@@ -3,16 +3,14 @@
   "private": true,
   "workspaces": [
     "apps/portfolio",
-    "apps/jarnvilja/frontend",
-    "apps/refactoring-visualizer"
+    "apps/jarnvilja/frontend"
   ],
   "scripts": {
-    "dev": "concurrently -n portfolio,jarnvilja-fe,jarnvilja-be,refactor-viz -c blue,cyan,magenta,green \"npm run dev:portfolio\" \"npm run dev:jarnvilja-frontend\" \"npm run dev:jarnvilja-backend\" \"npm run dev:refactoring-visualizer\"",
+    "dev": "concurrently -n portfolio,jarnvilja-fe,jarnvilja-be -c blue,cyan,magenta \"npm run dev:portfolio\" \"npm run dev:jarnvilja-frontend\" \"npm run dev:jarnvilja-backend\"",
     "dev:portfolio": "npm run dev -w apps/portfolio",
     "dev:jarnvilja-frontend": "npm run dev -w apps/jarnvilja/frontend",
     "dev:jarnvilja-backend": "cd apps/jarnvilja && ./mvnw spring-boot:run -Dspring-boot.run.profiles=demo",
     "dev:jarnvilja": "npm run dev:jarnvilja-frontend",
-    "dev:refactoring-visualizer": "npm run dev -w apps/refactoring-visualizer",
     "build": "npm run build:portfolio",
     "build:portfolio": "npm run build -w apps/portfolio",
     "build:jarnvilja": "npm run build -w apps/jarnvilja/frontend"
